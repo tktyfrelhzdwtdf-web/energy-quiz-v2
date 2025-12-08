@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭнергоКвиз: Викторина</title>
+ <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+        color: #fff;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .main-header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+    }
+
+    .main-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #00b4db, #0083b0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .main-header p {
+        color: #fff;
+        font-size: 1.2em;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #00b4db, #0083b0);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: linear-gradient(45deg, #00ff88, #00cc66);
+        color: white;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 20px rgba(0, 180, 219, 0.4);
+    }
+
+    .game-screen {
+        display: none;
+    }
+
+    .content-section {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .content-section h2 {
+        color: #00b4db;
+        margin-bottom: 15px;
+    }
+
+    .current-team-display {
+        text-align: center;
+        margin: 20px 0;
+        padding: 20px;
+        background: rgba(255, 215, 0, 0.1);
+        border-radius: 20px;
+        border: 3px solid #FFD700;
+        color: #fff;
+    }
+
+    .turn-indicator {
+        color: #FFD700;
+        font-weight: bold;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+
+    .team-card-large {
+        display: inline-block;
+        padding: 20px 40px;
+    }
+
+    .team-icon-large {
+        font-size: 4em;
+        margin-bottom: 10px;
+    }
+
+    .team-name-large {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #FFD700;
+    }
+
+    .score-board {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .team-score {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        border: 3px solid;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+        color: #fff;
+    }
+
+    .team-score.current-team {
+        border: 4px solid #FFD700 !important;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.7) !important;
+        transform: scale(1.05);
+        background: rgba(255, 215, 0, 0.1) !important;
+    }
+
+    @keyframes gentlePulse {
+        0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+        100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    }
+
+    .current-team {
+        animation: gentlePulse 2s infinite;
+    }
+
+    .team-score-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .team-stats {
+        text-align: right;
+    }
+
+    .team-points {
+        font-size: 2em;
+        font-weight: bold;
+        color: #00ff88;
+        display: block;
+    }
+
+    .progress-bar {
+        width: 100px;
+        height: 8px;
+        background: #333;
+        border-radius: 4px;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        background: #00ff88;
+        transition: width 0.3s ease;
+    }
+
+    .timer-container {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    .timer-circle {
+        width: 120px;
+        height: 120px;
+        border: 5px solid #00b4db;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        position: relative;
+    }
+
+    .timer-seconds {
+        font-size: 3em;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .timer-progress {
+        width: 300px;
+        height: 10px;
+        background: #333;
+        border-radius: 5px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .timer-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #00ff88, #00b4db);
+        width: 100%;
+        transition: width 1s linear;
+    }
+
+    .question-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .question-number {
+        color: #00b4db;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    .question-text {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+        line-height: 1.4;
+        color: #fff;
+    }
+
+    .answers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+    }
+
+    .answer-btn {
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #333;
+        border-radius: 15px;
+        color: white;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .answer-btn:hover {
+        border-color: #00b4db;
+        transform: translateY(-2px);
+    }
+
+    .answer-btn.correct {
+        background: rgba(0, 255, 136, 0.2);
+        border-color: #00ff88;
+    }
+
+    .answer-btn.incorrect {
+        background: rgba(255, 68, 68, 0.2);
+        border-color: #ff4444;
+    }
+
+    .fact-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 15px;
+        margin: 20px 0;
+        border-left: 5px solid #00b4db;
+        color: #fff;
+    }
+
+    .fact-title {
+        color: #00b4db;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+
+    .fact-text {
+        color: #fff;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+        .team-icon-large {
+            font-size: 3em;
+        }
+        .team-name-large {
+            font-size: 2em;
+        }
+        .answers-grid {
+            grid-template-columns: 1fr;
+        }
+        .timer-progress {
+            width: 200px;
+        }
+    }
+
+    @keyframes scoreUpdate {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .score-update {
+        animation: scoreUpdate 0.3s ease-in-out;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="main-header">
+            <h1>ЭнергоВикторина</h1>
+            <p>Проверьте свои знания об энергетике!</p>
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">← На главную</button>
+        </div>
+
+        <div class="game-screen" id="gameScreen">
+            <div class="current-team-display" id="currentTeamDisplay">
+                <div class="turn-indicator">СЕЙЧАС ОТВЕЧАЕТ</div>
+                <div class="team-card-large">
+                    <div class="team-icon-large" id="currentTeamIcon">⚛️</div>
+                    <div class="team-name-large" id="currentTeamName">Реактор</div>
+                </div>
+            </div>
+
+            <div class="score-board" id="scoreBoard"></div>
+
+            <div class="timer-container">
+                <div class="timer-circle">
+                    <span class="timer-seconds" id="timer">15</span>
+                </div>
+                <div class="timer-progress">
+                    <div class="timer-bar" id="timerBar"></div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-number" id="questionNumber">Вопрос 1 из 16</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="answers-grid" id="answersGrid"></div>
+            </div>
+
+            <div class="fact-container" id="factContainer" style="display: none;">
+                <div class="fact-title">💡 Интересный факт:</div>
+                <div class="fact-text" id="factText"></div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display: none;">➡️ Следующий вопрос</button>
+            </div>
+        </div>
+
+        <div class="content-section" id="noTeamsMessage" style="display: none;">
+            <h2>Команды не выбраны!</h2>
+            <p>Пожалуйста, вернитесь на главную страницу и выберите команды.</p>
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">🎯 Выбрать команды</button>
+        </div>
+    </div>
+
+    <script>
+        // Загружаем команды из localStorage
+        function loadTeams() {
+            const savedTeams = localStorage.getItem('energyTeams');
+            return savedTeams ? JSON.parse(savedTeams) : null;
+        }
+
+        // Данные викторины (16 вопросов)
+        const quizData = [
+            {
+                question: "Самая крупная АЭС в России?",
+                answers: ["Балаковская АЭС", "Ленинградская АЭС", "Калининская АЭС", "Ростовская АЭС"],
+                correct: 0,
+                fact: "Балаковская АЭС - крупнейшая в России, обеспечивает 30% электроэнергии Поволжья!"
+            },
+            {
+                question: "В каком городе находится Калининская АЭС?",
+                answers: ["Удомля", "Калининград", "Тверь", "Вышний Волочек"],
+                correct: 0,
+                fact: "Калининская АЭС расположена в городе Удомля Тверской области!"
+            },
+            {
+                question: "Сколько энергоблоков работает на Калининской АЭС?",
+                answers: ["4 энергоблока", "2 энергоблока", "3 энергоблока", "5 энергоблоков"],
+                correct: 0,
+                fact: "Все 4 энергоблока - это современные реакторы ВВЭР-1000 общей мощностью 4000 МВт!"
+            },
+            {
+                question: "Первый энергоблок какой АЭС дал ток в СССР?",
+                answers: ["Обнинская АЭС", "Ленинградская АЭС", "Курская АЭС", "Смоленская АЭС"],
+                correct: 0,
+                fact: "Обнинская АЭС (1954 г.) - первая в мире АЭС!"
+            },
+            {
+                question: "Самая северная АЭС мира?",
+                answers: ["Билибинская АЭС", "Кольская АЭС", "Ленинградская АЭС", "Калининская АЭС"],
+                correct: 0,
+                fact: "Билибинская АЭС работает в условиях вечной мерзлоты!"
+            },
+            {
+                question: "Какая ГЭС самая мощная в Европе?",
+                answers: ["Саяно-Шушенская", "Красноярская", "Братская", "Волжская"],
+                correct: 0,
+                fact: "Саяно-Шушенская ГЭС мощностью 6400 МВт!"
+            },
+            {
+                question: "Какой тип реакторов используется на Калининской АЭС?",
+                answers: ["ВВЭР-1000", "РБМК-1000", "БН-800", "ЭГП-6"],
+                correct: 0,
+                fact: "ВВЭР-1000 - один из самых безопасных реакторов в мире!"
+            },
+            {
+                question: "Где в России построена крупнейшая солнечная электростанция?",
+                answers: ["Республика Крым", "Краснодарский край", "Ставропольский край", "Астраханская область"],
+                correct: 0,
+                fact: "В Крыму работает более 10 солнечных парков!"
+            },
+            {
+                question: "Какой город называют 'атомградом' кроме Удомли?",
+                answers: ["Сосновый Бор", "Дубна", "Кимры", "Ржев"],
+                correct: 0,
+                fact: "Сосновый Бор - дом Ленинградской АЭС!"
+            },
+            {
+                question: "На какой реке стоит Рыбинская ГЭС?",
+                answers: ["Волга", "Енисей", "Ангара", "Лена"],
+                correct: 0,
+                fact: "Рыбинская ГЭС - важный узел Волжско-Камского каскада!"
+            },
+            {
+                question: "Какой регион лидирует по ветроэнергетике?",
+                answers: ["Ростовская область", "Мурманская область", "Калининградская область", "Приморский край"],
+                correct: 0,
+                fact: "В Ростовской области построены крупнейшие ветропарки!"
+            },
+            {
+                question: "Какое топливо самое распространенное на ТЭЦ России?",
+                answers: ["Природный газ", "Уголь", "Мазут", "Торф"],
+                correct: 0,
+                fact: "Более 70% электроэнергии в России производится на газовых ТЭЦ!"
+            },
+            {
+                question: "Что означает цветовая маркировка проводов?",
+                answers: [
+                    "Коричневый - фаза, синий - ноль, жёлто-зелёный - земля",
+                    "Красный - фаза, чёрный - ноль, белый - земля",
+                    "Синий - фаза, зелёный - ноль, красный - земля"
+                ],
+                correct: 0,
+                fact: "Цветовая маркировка - важнейший элемент электробезопасности!"
+            },
+            {
+                question: "Какое напряжение в бытовой сети России?",
+                answers: ["220 В", "110 В", "380 В", "127 В"],
+                correct: 0,
+                fact: "220 вольт - стандарт для бытовых сетей в России и Европе!"
+            },
+            {
+                question: "Какие ещё крупные энергообъекты есть в Тверской области?",
+                answers: ["Конаковская ГРЭС", "Тверская АЭС", "Ржевская ГЭС", "Бежецкая ТЭЦ"],
+                correct: 0,
+                fact: "Конаковская ГРЭС - одна из крупнейших тепловых станций в Центральной России!"
+            },
+            {
+                question: "Какой % энергии Тверской области экспортируется?",
+                answers: ["Около 40%", "10%", "70%", "90%"],
+                correct: 0,
+                fact: "Тверская область - энергодонор! Около 40% произведенной энергии поставляется в другие регионы."
+            }
+        ];
+
+        let currentTeams = [];
+        let currentQuestion = 0;
+        let currentTeamIndex = 0;
+        let scores = {};
+        let timer;
+        let timeLeft = 15;
+        let questionsPerTeam = 4;
+        let totalQuestions = 16;
+
+        // Инициализация игры
+        function initializeGame() {
+            const loadedTeams = loadTeams();
+            
+            if (!loadedTeams || loadedTeams.length === 0) {
+                document.getElementById('noTeamsMessage').style.display = 'block';
+                document.getElementById('gameScreen').style.display = 'none';
+                return;
+            }
+
+            currentTeams = loadedTeams;
+            document.getElementById('noTeamsMessage').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            
+            // Корректируем количество вопросов чтобы было кратно количеству команд
+            questionsPerTeam = Math.floor(quizData.length / currentTeams.length);
+            totalQuestions = currentTeams.length * questionsPerTeam;
+            
+            scores = {};
+            currentTeams.forEach(team => {
+                scores[team.name] = 0;
+            });
+
+            initializeScoreBoard();
+            showQuestionForCurrentTeam();
+        }
+
+        // Инициализация табло
+        function initializeScoreBoard() {
+            const scoreBoard = document.getElementById('scoreBoard');
+            scoreBoard.innerHTML = '';
+
+            currentTeams.forEach(team => {
+                const scoreElement = document.createElement('div');
+                scoreElement.className = 'team-score';
+                scoreElement.style.borderColor = team.color;
+                scoreElement.id = `score-${team.name}`;
+                
+                scoreElement.innerHTML = `
+                    <div class="team-score-info">
+                        <span class="team-icon">${team.icon}</span>
+                        <span class="team-name">${team.name}</span>
+                    </div>
+                    <div class="team-stats">
+                        <span class="team-points">${scores[team.name]}/${questionsPerTeam}</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                `;
+                scoreBoard.appendChild(scoreElement);
+            });
+        }
+
+        // Показать вопрос для текущей команды
+        function showQuestionForCurrentTeam() {
+            if (currentQuestion >= totalQuestions) {
+                endGame();
+                return;
+            }
+
+            const currentTeam = currentTeams[currentTeamIndex];
+            highlightCurrentTeam(currentTeam);
+            
+            const questionData = quizData[currentQuestion];
+            document.getElementById('questionNumber').textContent = 
+                `Вопрос ${currentQuestion + 1} из ${totalQuestions}`;
+            document.getElementById('questionText').textContent = questionData.question;
+
+            const answersGrid = document.getElementById('answersGrid');
+            answersGrid.innerHTML = '';
+
+            questionData.answers.forEach((answer, index) => {
+                const answerBtn = document.createElement('button');
+                answerBtn.className = 'answer-btn';
+                answerBtn.textContent = answer;
+                answerBtn.onclick = () => checkAnswer(index);
+                answersGrid.appendChild(answerBtn);
+            });
+
+            document.getElementById('factContainer').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('timer').textContent = '15';
+            document.getElementById('timerBar').style.width = '100%';
+            document.getElementById('timer').style.color = '#fff';
+            document.getElementById('timerBar').style.background = 'linear-gradient(90deg, #00ff88, #00b4db)';
+
+            startTimer();
+        }
+
+        // Визуальное выделение текущей команды
+        function highlightCurrentTeam(team) {
+            document.querySelectorAll('.team-score').forEach(score => {
+                score.classList.remove('current-team');
+            });
+            
+            const currentScoreElement = document.getElementById(`score-${team.name}`);
+            if (currentScoreElement) {
+                currentScoreElement.classList.add('current-team');
+            }
+            
+            document.getElementById('currentTeamIcon').textContent = team.icon;
+            document.getElementById('currentTeamName').textContent = team.name;
+        }
+
+        // Таймер
+        function startTimer() {
+            timeLeft = 15;
+            clearInterval(timer);
+
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                document.getElementById('timerBar').style.width = `${(timeLeft / 15) * 100}%`;
+
+                if (timeLeft <= 5) {
+                    document.getElementById('timer').style.color = '#ff4444';
+                    document.getElementById('timerBar').style.background = '#ff4444';
+                } else if (timeLeft <= 10) {
+                    document.getElementById('timer').style.color = '#ffaa00';
+                    document.getElementById('timerBar').style.background = '#ffaa00';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        // Время вышло
+        function timeUp() {
+            const questionData = quizData[currentQuestion];
+            highlightCorrectAnswer(questionData.correct);
+            showFact(questionData.fact);
+        }
+
+        // Проверка ответа
+        function checkAnswer(selectedIndex) {
+            clearInterval(timer);
+            const questionData = quizData[currentQuestion];
+            const isCorrect = selectedIndex === questionData.correct;
+            const currentTeam = currentTeams[currentTeamIndex];
+
+            highlightAnswers(selectedIndex, questionData.correct);
+
+            if (isCorrect) {
+                scores[currentTeam.name] += 1;
+                updateScore(currentTeam.name);
+            }
+
+            showFact(questionData.fact);
+        }
+
+        // Подсветка ответов
+        function highlightAnswers(selected, correct) {
+            const answerBtns = document.querySelectorAll('.answer-btn');
+            answerBtns.forEach((btn, index) => {
+                if (index === correct) {
+                    btn.classList.add('correct');
+                } else if (index === selected) {
+                    btn.classList.add('incorrect');
+                }
+            });
+        }
+
+        // Подсветка правильного ответа
+        function highlightCorrectAnswer(correctIndex) {
+            const answerBtns = document.querySelectorAll('.answer-btn');
+            answerBtns[correctIndex].classList.add('correct');
+        }
+
+        // Показать факт
+        function showFact(fact) {
+            document.getElementById('factText').textContent = fact;
+            document.getElementById('factContainer').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        // Обновление счета
+        function updateScore(teamName) {
+            const scoreElement = document.getElementById(`score-${teamName}`);
+            const correctAnswers = scores[teamName];
+            const progressWidth = (correctAnswers / questionsPerTeam) * 100;
+            
+            scoreElement.innerHTML = `
+                <div class="team-score-info">
+                    <span class="team-icon">${currentTeams.find(t => t.name === teamName).icon}</span>
+                    <span class="team-name">${teamName}</span>
+                </div>
+                <div class="team-stats">
+                    <span class="team-points">${correctAnswers}/${questionsPerTeam}</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${progressWidth}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            scoreElement.classList.add('score-update');
+            setTimeout(() => scoreElement.classList.remove('score-update'), 300);
+        }
+
+        // Следующий вопрос
+        function nextQuestion() {
+            currentQuestion++;
+            currentTeamIndex = (currentTeamIndex + 1) % currentTeams.length;
+            showQuestionForCurrentTeam();
+        }
+
+        // Конец игры
+        function endGame() {
+            let winners = [];
+            let maxScore = 0;
+            
+            currentTeams.forEach(team => {
+                if (scores[team.name] > maxScore) {
+                    maxScore = scores[team.name];
+                    winners = [team];
+                } else if (scores[team.name] === maxScore) {
+                    winners.push(team);
+                }
+            });
+
+            const finalScreen = document.createElement('div');
+            finalScreen.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+
+            let winnerText;
+            if (winners.length === 1) {
+                winnerText = `🎉 ПОБЕДИТЕЛЬ!<br>Команда ${winners[0].icon} ${winners[0].name}<br>${maxScore}/${questionsPerTeam} правильных ответов`;
+            } else {
+                const winnerNames = winners.map(w => `${w.icon} ${w.name}`).join('<br>');
+                winnerText = `🎉 НИЧЬЯ!<br>${winnerNames}<br>${maxScore}/${questionsPerTeam} правильных ответов`;
+            }
+
+            finalScreen.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    padding: 40px;
+                    border-radius: 20px;
+                    border: 3px solid #FFD700;
+                    text-align: center;
+                    max-width: 500px;
+                    width: 90%;
+                ">
+                    <h2 style="color: #FFD700; margin-bottom: 30px; font-size: 2em;">РЕЗУЛЬТАТЫ ВИКТОРИНЫ</h2>
+                    <div style="font-size: 1.5em; margin-bottom: 30px; line-height: 1.5;">
+                        ${winnerText}
+                    </div>
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="color: #00b4db; margin-bottom: 15px;">Итоговые результаты:</h3>
+                        ${currentTeams.map(team => `
+                            <div style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.2em;">
+                                <span>${team.icon} ${team.name}</span>
+                                <span style="color: #00ff88;">${scores[team.name]}/${questionsPerTeam}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="this.parentElement.parentElement.remove(); location.reload()" 
+                                style="
+                                    padding: 15px 30px;
+                                    background: linear-gradient(45deg, #00b4db, #0083b0);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 25px;
+                                    font-size: 1.1em;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                ">
+                            🎮 Начать заново
+                        </button>
+                        <button onclick="window.location.href='index.html'" 
+                                style="
+                                    padding: 15px 30px;
+                                    background: linear-gradient(45deg, #00ff88, #00cc66);
+                                    color: white;
+                                    border: none;
+                                    border-radius: 25px;
+                                    font-size: 1.1em;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                ">
+                            🏠 На главную
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(finalScreen);
+        }
+
+        // Запуск при загрузке
+        window.onload = initializeGame;
+    </script>
+</body>
+</html>
