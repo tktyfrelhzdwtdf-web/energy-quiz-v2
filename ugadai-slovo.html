@@ -5,188 +5,200 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Энергетический шифр: Угадай слово</title>
     <style>
+        /* СБРОС СТИЛЕЙ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* ОСНОВНОЙ ФОН СТРАНИЦЫ */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%) !important;
+            background-attachment: fixed !important;
+            background-size: cover !important;
             color: #fff;
             min-height: 100vh;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: transparent !important;
         }
 
+        /* Шапка */
         .header {
             text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            margin-bottom: 20px;
+            padding: 20px 0 15px 0;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.5) !important;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 3.5em;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            color: #FFD700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .header h1 .emoji-icon {
-            background: none !important;
-            -webkit-text-fill-color: initial !important;
-            filter: none !important;
-            display: inline-block;
+        .header p {
+            font-size: 1.5em;
+            color: #E0E0E0;
+            margin-bottom: 15px;
+        }
+
+        /* Панель управления */
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 25px;
-            font-size: 1em;
+            border-radius: 12px;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 5px;
+            min-width: 180px;
         }
 
-        .btn-secondary {
+        .btn-primary {
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            color: white;
+        }
+
+        .btn-success {
             background: linear-gradient(45deg, #00ff88, #00cc66);
             color: white;
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 180, 219, 0.4);
-        }
-
-        .content-section {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .game-screen {
-            display: none;
-        }
-
-        .current-team-display {
-            text-align: center;
-            margin: 15px 0;
-            padding: 15px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 20px;
-            border: 3px solid #FFD700;
-        }
-
-        .turn-indicator {
-            display: none;
-        }
-
-        .team-card-large {
-            display: inline-block;
-            padding: 15px 30px;
-        }
-
-        .team-info-compact {
+        /* Основной макет */
+        .game-layout {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            font-size: 1.8em;
-            font-weight: bold;
+            gap: 30px;
+            min-height: 700px;
+            background: transparent !important;
         }
 
-        .team-info-compact .team-indicator {
-            color: #FFD700;
+        @media (max-width: 1200px) {
+            .game-layout {
+                flex-direction: column;
+            }
         }
 
-        .team-info-compact .team-icon-large {
-            font-size: 1.8em;
-            margin: 0;
+        /* Левая колонка */
+        .left-column {
+            flex: 0 0 30%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            background: transparent !important;
         }
 
-        .team-info-compact .team-name-large {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #FFD700;
-            margin: 0;
+        /* Правая колонка */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            background: transparent !important;
         }
 
-        .score-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .team-score {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+        /* Блок команд */
+        .teams-section {
+            background: rgba(0, 0, 0, 0.7) !important;
+            padding: 25px;
             border-radius: 15px;
-            border: 3px solid;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 1.2em;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .teams-section h2 {
+            color: #FFD700;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.05) !important;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid transparent;
             transition: all 0.3s ease;
         }
 
-        .team-score.current-team {
-            border: 4px solid #FFD700 !important;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7) !important;
-            transform: scale(1.05);
-            background: rgba(255, 215, 0, 0.1) !important;
+        .team-card.active {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1) !important;
+            transform: scale(1.02);
         }
 
-        @keyframes gentlePulse {
-            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
-            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-        }
-
-        .current-team {
-            animation: gentlePulse 2s infinite;
-        }
-
-        .team-score-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .team-stats {
-            text-align: right;
-        }
-
-        .team-points {
+        .team-name {
             font-size: 1.5em;
             font-weight: bold;
-            color: #00ff88;
+            color: #4FC3F7;
+            margin-bottom: 5px;
+            text-align: center;
         }
 
-        /* Визуализация цепи */
+        .team-score {
+            font-size: 1.8em;
+            color: #FFD700;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Текущая команда */
+        .current-team {
+            background: rgba(255, 215, 0, 0.15) !important;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .current-team h3 {
+            color: #FFD700;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .current-team-display {
+            font-size: 2.5em;
+            color: #4FC3F7;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Цепь с лампочками */
         .circuit-container {
             text-align: center;
-            margin: 15px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7) !important;
             border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .circuit {
@@ -227,6 +239,30 @@
             background: #555;
         }
 
+        /* Таймер */
+        .timer-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7) !important;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .timer-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .timer-warning {
+            color: #ff4444 !important;
+            animation: pulse 1s infinite;
+        }
+
         /* Отображение слова */
         .word-display {
             text-align: center;
@@ -241,10 +277,11 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
-            background: rgba(0, 180, 219, 0.05);
+            background: rgba(0, 0, 0, 0.7) !important;
             border-radius: 15px;
             padding: 20px;
             border: 2px solid rgba(0, 180, 219, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .letter {
@@ -265,171 +302,178 @@
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .letter.space {
-            border-bottom: none;
-            width: 25px;
-        }
-
-        /* Клавиатура */
-        .keyboard {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        .key {
-            padding: 12px 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #333;
-            border-radius: 8px;
-            color: white;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .key:hover:not(.used) {
-            background: rgba(0, 180, 219, 0.3);
-            border-color: #00b4db;
-        }
-
-        .key.used {
-            background: #333;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        .key.correct {
-            background: rgba(0, 255, 136, 0.3);
-            border-color: #00ff88;
-        }
-
-        .key.incorrect {
-            background: rgba(255, 68, 68, 0.3);
-            border-color: #ff4444;
-        }
-
-        /* ИНФОРМАЦИЯ О СЛОВЕ - УВЕЛИЧИВАЕМ ВОПРОС */
+        /* Информация о слове */
         .word-info {
             text-align: center;
             margin: 20px 0;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.7) !important;
             border-radius: 15px;
             border: 2px solid rgba(255, 170, 0, 0.3);
+            backdrop-filter: blur(5px);
         }
 
         .category {
-            color: #00b4db;
-            font-size: 1.3em; /* Увеличили шрифт категории */
-            font-weight: bold;
-            margin-bottom: 15px;
+            display: none;
+        }
+
+        .hint {
+            color: #ffaa00;
+            font-size: 1.8em !important;
+            font-weight: 700 !important;
+            line-height: 1.5;
+            padding: 25px !important;
+            background: rgba(255, 170, 0, 0.1) !important;
+            border-radius: 15px;
+            border-left: 4px solid #ffaa00;
+            text-align: center;
+            min-height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
         }
 
-        /* ВОПРОС/ПОДСКАЗКА - ДЕЛАЕМ КРУПНЕЕ */
-        .hint {
-            color: #ffaa00;
-            font-size: 1.4em; /* Увеличили с 0.95em */
-            font-weight: 600; /* Сделали жирнее */
-            line-height: 1.5;
-            padding: 15px;
-            background: rgba(255, 170, 0, 0.1);
-            border-radius: 10px;
-            border-left: 4px solid #ffaa00;
-            margin-top: 10px;
+        /* Виртуальная клавиатура */
+        .virtual-keyboard-section {
+            background: rgba(0, 0, 0, 0.7) !important;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid rgba(79, 195, 247, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .virtual-keyboard-section h3 {
+            color: #4FC3F7;
+            font-size: 1.8em;
+            margin-bottom: 20px;
             text-align: center;
         }
 
-        .hint-icon {
-            font-size: 1.2em;
-            margin-right: 8px;
+        .keyboard-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        /* Адаптивность */
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .key-btn {
+            width: 70px;
+            height: 70px;
+            font-size: 1.8em;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #4FC3F7, #2196F3);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .key-btn:hover:not(:disabled) {
+            transform: translateY(-5px) scale(1.1);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .key-btn:active:not(:disabled) {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        .key-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .key-btn.correct {
+            background: linear-gradient(135deg, #00E676, #00C853);
+        }
+
+        .key-btn.wrong {
+            background: linear-gradient(135deg, #FF5252, #FF4081);
+        }
+
+        /* Сообщения */
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95) !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .message-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Мобильная адаптация */
         @media (max-width: 768px) {
-            .keyboard {
-                grid-template-columns: repeat(7, 1fr);
+            .header h1 {
+                font-size: 2.5em;
             }
-            .team-info-compact {
-                font-size: 1.5em;
-                flex-direction: column;
-                gap: 8px;
-            }
-            .team-info-compact .team-icon-large {
-                font-size: 1.5em;
-            }
-            .team-info-compact .team-name-large {
-                font-size: 1.5em;
-            }
+            
             .word-display {
-                font-size: 2.2em;
-                letter-spacing: 10px;
+                font-size: 2em;
+                letter-spacing: 8px;
                 padding: 15px;
-                min-height: 70px;
             }
+            
             .letter {
                 width: 40px;
                 height: 55px;
                 line-height: 55px;
                 margin: 0 3px;
-                border-bottom-width: 3px;
             }
-            .letter.space {
-                width: 15px;
+            
+            .hint {
+                font-size: 1.5em !important;
+                padding: 15px !important;
             }
-            .header h1 {
-                font-size: 2em;
-                flex-direction: column;
+            
+            .key-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3em;
+            }
+            
+            .keyboard-row {
                 gap: 8px;
             }
-            .hint {
-                font-size: 1.2em; /* Уменьшаем для мобильных, но все равно больше */
-                padding: 12px;
+            
+            .timer-display {
+                font-size: 2.5em;
             }
-            .category {
-                font-size: 1.1em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .keyboard {
-                grid-template-columns: repeat(5, 1fr);
-            }
-            .word-display {
-                font-size: 1.8em;
-                letter-spacing: 8px;
-                padding: 12px;
-                min-height: 60px;
-            }
-            .letter {
-                width: 30px;
-                height: 45px;
-                line-height: 45px;
-                margin: 0 2px;
-            }
-            .hint {
-                font-size: 1.1em;
-                padding: 10px;
-            }
-        }
-
-        @keyframes scoreUpdate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .score-update {
-            animation: scoreUpdate 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -437,67 +481,86 @@
     <div class="container">
         <!-- Шапка -->
         <div class="header">
-            <h1><span class="emoji-icon">🔤</span> Энергетический шифр</h1>
-            <p>Угадайте слово по буквам!</p>
-            <button class="btn btn-secondary" onclick="window.location.href='index.html'">← На главную</button>
-        </div>
-
-        <!-- Основная игра -->
-        <div class="game-screen" id="gameScreen">
-            <!-- Текущая команда -->
-            <div class="current-team-display" id="currentTeamDisplay">
-                <div class="team-info-compact">
-                    <span class="team-indicator">ОТВЕЧАЕТ:</span>
-                    <span class="team-icon-large" id="currentTeamIcon">⚛️</span>
-                    <span class="team-name-large" id="currentTeamName">Реактор</span>
-                </div>
-            </div>
-
-            <!-- Табло с очками -->
-            <div class="score-board" id="scoreBoard"></div>
-
-            <!-- Цепь с лампочками -->
-            <div class="circuit-container">
-                <h3>⚡ Энергетическая цепь</h3>
-                <div class="circuit" id="circuit">
-                    <!-- Лампочки будут сгенерированы здесь -->
-                </div>
-                <div id="attemptsInfo">Осталось попыток: 5</div>
-            </div>
-
-            <!-- Отображение слова -->
-            <div class="word-display" id="wordDisplay"></div>
-
-            <!-- Информация о слове С УВЕЛИЧЕННЫМ ВОПРОСОМ -->
-            <div class="word-info" id="wordInfo">
-                <div class="category" id="wordCategory">⚡ Оборудование</div>
-                <div class="hint">
-                    <span class="hint-icon">💡</span>
-                    <span id="wordHint">Устройство для изменения напряжения тока</span>
-                </div>
-            </div>
-
-            <!-- Клавиатура -->
-            <div class="keyboard" id="keyboard">
-                <!-- Клавиши будут сгенерированы здесь -->
-            </div>
-
-            <!-- Кнопка следующего слова -->
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn btn-secondary" id="nextWordBtn" onclick="nextWord()" style="display: none;">➡️ Следующее слово</button>
+            <h1>🔠 ЭНЕРГОШИФР</h1>
+            <p>Угадайте энергетические термины по буквам! Классическая "Виселица" на профессиональную тематику</p>
+            
+            <div class="control-panel">
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                    ← На главную
+                </button>
+                <button class="btn btn-success" id="startBtn" onclick="startGame()">
+                    🚀 Начать игру
+                </button>
             </div>
         </div>
 
-        <!-- Сообщение если команды не выбраны -->
-        <div class="content-section" id="noTeamsMessage" style="display: none;">
-            <h2>Команды не выбраны!</h2>
-            <p>Пожалуйста, вернитесь на главную страницу и выберите команды.</p>
-            <button class="btn btn-secondary" onclick="window.location.href='index.html'">🎯 Выбрать команды</button>
+        <!-- Основной макет -->
+        <div class="game-layout">
+            <!-- Левая колонка: Команды -->
+            <div class="left-column">
+                <!-- Блок команд -->
+                <div class="teams-section" id="teamsSection" style="display: none;">
+                    <h2>👥 КОМАНДЫ</h2>
+                    <div class="teams-grid" id="teamsGrid"></div>
+                </div>
+
+                <!-- Текущая команда -->
+                <div class="current-team" id="currentTeamSection" style="display: none;">
+                    <h3>Отвечает:</h3>
+                    <div class="current-team-display" id="currentTeamName">Команда ?</div>
+                </div>
+
+                <!-- Таймер -->
+                <div class="timer-container" id="timerContainer" style="display: none;">
+                    <h3>⏱️ ТАЙМЕР</h3>
+                    <div class="timer-display" id="timerDisplay">50</div>
+                    <div>секунд на букву</div>
+                </div>
+
+                <!-- Цепь с лампочками -->
+                <div class="circuit-container" id="circuitContainer" style="display: none;">
+                    <h3>⚡ ЭНЕРГЕТИЧЕСКАЯ ЦЕПЬ</h3>
+                    <div class="circuit" id="circuit"></div>
+                    <div id="attemptsInfo" style="color: #FFD700; font-size: 1.2em; margin-top: 10px;">
+                        Осталось попыток: <span id="remainingAttempts">5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Игра -->
+            <div class="right-column">
+                <!-- Отображение слова -->
+                <div class="word-display" id="wordDisplay">
+                    ГОТОВЫ К ИГРЕ?
+                </div>
+
+                <!-- Информация о слове -->
+                <div class="word-info" id="wordInfo" style="display: none;">
+                    <div class="hint">
+                        <span id="wordHint">Нажмите "Начать игру" чтобы начать</span>
+                    </div>
+                </div>
+
+                <!-- ВИРТУАЛЬНАЯ КЛАВИАТУРА -->
+                <div class="virtual-keyboard-section" id="keyboardSection" style="display: none;">
+                    <h3>👆 НАЖМИТЕ НА БУКВУ</h3>
+                    <div class="keyboard-rows" id="virtualKeyboard">
+                        <!-- Буквы будут добавлены через JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Кнопка следующего слова -->
+                <div class="next-word-section">
+                    <button class="btn btn-success" id="nextWordBtn" onclick="nextWord()" style="display: none; font-size: 1.3em;">
+                        ➡️ Следующее слово
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Слова для угадывания
+        // ========== ДАННЫЕ СЛОВ (16 СЛОВ) ==========
         const words = [
             {
                 word: "ТРАНСФОРМАТОР",
@@ -558,121 +621,233 @@
                 word: "МОНТАЖНИК",
                 category: "👨‍💼 Профессии",
                 hint: "Специалист по установке оборудования"
+            },
+            {
+                word: "РЕЛЕ",
+                category: "⚡ Оборудование",
+                hint: "Электромагнитный выключатель"
+            },
+            {
+                word: "ЩИТОК",
+                category: "⚡ Оборудование",
+                hint: "Распределительное устройство"
+            },
+            {
+                word: "МОЩНОСТЬ",
+                category: "📊 Параметры",
+                hint: "Произведение напряжения на ток"
+            },
+            {
+                word: "РЕОСТАТ",
+                category: "⚡ Оборудование",
+                hint: "Переменное сопротивление"
             }
         ];
 
-        // Загружаем команды из localStorage
-        function loadTeams() {
-            const savedTeams = localStorage.getItem('energyTeams');
-            return savedTeams ? JSON.parse(savedTeams) : null;
-        }
-
-        let currentTeams = [];
+        // ========== ПЕРЕМЕННЫЕ ИГРЫ ==========
+        let teams = [];
         let currentTeamIndex = 0;
         let currentWordIndex = 0;
         let scores = {};
         let usedLetters = [];
         let wrongAttempts = 0;
         const maxAttempts = 5;
+        
+        // Переменные для таймера
+        let timer;
+        let timeLeft = 50;
+        let isTimerRunning = false;
+        
+        // Переменная для отслеживания чья сейчас очередь отвечать
+        let answeringTeamIndex = 0;
 
-        // Инициализация игры
-        function initializeGame() {
-            const loadedTeams = loadTeams();
+        // ========== ЗАГРУЗКА КОМАНД ==========
+        function loadTeamsFromStorage() {
+            const possibleKeys = ['energyQuizTeams', 'energyTeams', 'quizTeams', 'teams'];
             
-            if (!loadedTeams || loadedTeams.length === 0) {
-                document.getElementById('noTeamsMessage').style.display = 'block';
-                document.getElementById('gameScreen').style.display = 'none';
+            for (const key of possibleKeys) {
+                const savedTeams = localStorage.getItem(key);
+                if (savedTeams) {
+                    try {
+                        const loadedTeams = JSON.parse(savedTeams);
+                        return loadedTeams.map(team => {
+                            if (typeof team === 'string') {
+                                return {
+                                    name: team,
+                                    score: 0
+                                };
+                            }
+                            else if (typeof team === 'object' && team !== null) {
+                                return {
+                                    name: team.name || team.title || team.teamName || 'Команда',
+                                    score: team.score || team.points || 0
+                                };
+                            }
+                            else {
+                                return {
+                                    name: 'Команда',
+                                    score: 0
+                                };
+                            }
+                        });
+                    } catch (e) {
+                        console.log('Ошибка парсинга команд:', e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        // ========== ИНИЦИАЛИЗАЦИЯ ИГРЫ ==========
+        function startGame() {
+            const loadedTeams = loadTeamsFromStorage();
+            
+            if (!loadedTeams || loadedTeams.length < 2) {
+                showMessage('Команды не найдены!', 
+                           'Пожалуйста, вернитесь на главную страницу и создайте минимум 2 команды.',
+                           'warning');
                 return;
             }
 
-            currentTeams = loadedTeams;
-            document.getElementById('noTeamsMessage').style.display = 'none';
-            document.getElementById('gameScreen').style.display = 'block';
-            
-            // Инициализируем счетчики
+            teams = loadedTeams;
+            currentTeamIndex = 0;
+            currentWordIndex = 0;
+            answeringTeamIndex = 0; // Начинает отвечать первая команда
             scores = {};
-            currentTeams.forEach(team => {
+            
+            // Сбрасываем счетчики для всех команд
+            teams.forEach(team => {
                 scores[team.name] = 0;
+                team.score = 0;
             });
 
-            initializeScoreBoard();
+            // Перемешиваем все слова
+            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+
+            // Показываем игровые элементы
+            const elementsToShow = [
+                'teamsSection',
+                'currentTeamSection',
+                'circuitContainer',
+                'wordInfo',
+                'keyboardSection',
+                'timerContainer'
+            ];
+            
+            elementsToShow.forEach(id => {
+                document.getElementById(id).style.display = 'block';
+            });
+            
+            document.getElementById('startBtn').style.display = 'none';
+
+            // Инициализируем отображение
+            updateTeamDisplay();
             startNewWord();
         }
 
-        // Инициализация табло
-        function initializeScoreBoard() {
-            const scoreBoard = document.getElementById('scoreBoard');
-            scoreBoard.innerHTML = '';
-
-            currentTeams.forEach(team => {
-                const scoreElement = document.createElement('div');
-                scoreElement.className = 'team-score';
-                scoreElement.style.borderColor = team.color;
-                scoreElement.id = `score-${team.name}`;
-                
-                scoreElement.innerHTML = `
-                    <div class="team-score-info">
-                        <span class="team-icon">${team.icon}</span>
-                        <span class="team-name">${team.name}</span>
-                    </div>
-                    <div class="team-stats">
-                        <span class="team-points">${scores[team.name]}</span>
-                    </div>
+        // ========== ОБНОВЛЕНИЕ ОТОБРАЖЕНИЯ КОМАНД ==========
+        function updateTeamDisplay() {
+            const teamsGrid = document.getElementById('teamsGrid');
+            teamsGrid.innerHTML = '';
+            
+            teams.forEach((team, index) => {
+                const teamCard = document.createElement('div');
+                teamCard.className = `team-card ${index === answeringTeamIndex ? 'active' : ''}`;
+                teamCard.innerHTML = `
+                    <div class="team-name">${team.name}</div>
+                    <div class="team-score">${team.score || 0} баллов</div>
                 `;
-                scoreBoard.appendChild(scoreElement);
+                teamsGrid.appendChild(teamCard);
             });
+            
+            // Обновляем отображение текущей команды
+            document.getElementById('currentTeamName').textContent = teams[answeringTeamIndex].name;
         }
 
-        // Начать новое слово
+        // ========== ТАЙМЕР ==========
+        function startTimer() {
+            if (isTimerRunning) {
+                clearInterval(timer);
+            }
+            
+            timeLeft = 50;
+            isTimerRunning = true;
+            updateTimerDisplay();
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    isTimerRunning = false;
+                    timeUp();
+                }
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            if (isTimerRunning) {
+                clearInterval(timer);
+                isTimerRunning = false;
+            }
+        }
+        
+        function updateTimerDisplay() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            timerDisplay.textContent = timeLeft;
+            
+            if (timeLeft <= 10) {
+                timerDisplay.classList.add('timer-warning');
+            } else {
+                timerDisplay.classList.remove('timer-warning');
+            }
+        }
+        
+        function timeUp() {
+            stopTimer();
+            const currentWord = words[currentWordIndex];
+            revealWord(currentWord.word);
+            
+            showMessage('⏰ ВРЕМЯ ВЫШЛО!',
+                       'Время на ввод буквы истекло!<br>Вы не успели угадать слово.',
+                       'error');
+            
+            // Переходим к следующему слову
+            document.getElementById('nextWordBtn').style.display = 'block';
+        }
+
+        // ========== НОВОЕ СЛОВО ==========
         function startNewWord() {
+            // Проверяем, закончились ли слова
             if (currentWordIndex >= words.length) {
-                endGame();
+                finishGame();
                 return;
             }
 
-            const currentTeam = currentTeams[currentTeamIndex];
-            highlightCurrentTeam(currentTeam);
-
-            const wordData = words[currentWordIndex];
+            const currentWord = words[currentWordIndex];
             usedLetters = [];
             wrongAttempts = 0;
 
-            // Обновляем информацию о слове
-            document.getElementById('wordCategory').textContent = wordData.category;
-            document.getElementById('wordHint').textContent = wordData.hint;
-
-            // Создаем отображение слова
-            displayWord(wordData.word);
-            
-            // Создаем клавиатуру
-            createKeyboard();
-            
-            // Создаем цепь с лампочками
+            document.getElementById('wordHint').textContent = currentWord.hint;
+            displayWord(currentWord.word);
+            createVirtualKeyboard();
             createCircuit();
-            
-            // Сбрасываем кнопку следующего слова
             document.getElementById('nextWordBtn').style.display = 'none';
-            
-            // Обновляем информацию о попытках
             updateAttemptsInfo();
+            
+            // ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ КОМАНДЫ ПЕРЕД НАЧАЛОМ СЛОВА
+            updateTeamDisplay();
+            
+            startTimer();
         }
 
-        // Визуальное выделение текущей команды
-        function highlightCurrentTeam(team) {
-            document.querySelectorAll('.team-score').forEach(score => {
-                score.classList.remove('current-team');
-            });
-            
-            const currentScoreElement = document.getElementById(`score-${team.name}`);
-            if (currentScoreElement) {
-                currentScoreElement.classList.add('current-team');
-            }
-            
-            document.getElementById('currentTeamIcon').textContent = team.icon;
-            document.getElementById('currentTeamName').textContent = team.name;
+        // ========== ОБНОВЛЕНИЕ ИНФОРМАЦИИ О ПОПЫТКАХ ==========
+        function updateAttemptsInfo() {
+            document.getElementById('remainingAttempts').textContent = maxAttempts - wrongAttempts;
         }
 
-        // Отображение слова
+        // ========== ОТОБРАЖЕНИЕ СЛОВА ==========
         function displayWord(word) {
             const wordDisplay = document.getElementById('wordDisplay');
             wordDisplay.innerHTML = '';
@@ -680,46 +855,66 @@
             for (let i = 0; i < word.length; i++) {
                 const letter = word[i];
                 const letterElement = document.createElement('span');
+                letterElement.className = 'letter';
                 
                 if (letter === ' ') {
-                    letterElement.className = 'letter space';
                     letterElement.innerHTML = '&nbsp;';
+                } else if (usedLetters.includes(letter)) {
+                    letterElement.textContent = letter;
+                    letterElement.classList.add('revealed');
                 } else {
-                    letterElement.className = 'letter';
-                    if (usedLetters.includes(letter)) {
-                        letterElement.textContent = letter;
-                        letterElement.classList.add('revealed');
-                    } else {
-                        letterElement.textContent = '_';
-                    }
+                    letterElement.textContent = '_';
                 }
                 
                 wordDisplay.appendChild(letterElement);
             }
         }
 
-        // Создание клавиатуры
-        function createKeyboard() {
-            const keyboard = document.getElementById('keyboard');
+        // ========== СОЗДАНИЕ ВИРТУАЛЬНОЙ КЛАВИАТУРЫ ==========
+        function createVirtualKeyboard() {
+            const keyboard = document.getElementById('virtualKeyboard');
             keyboard.innerHTML = '';
 
-            const russianLetters = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+            const russianLetters = [
+                'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И',
+                'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
+                'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь',
+                'Э', 'Ю', 'Я'
+            ];
 
-            for (let letter of russianLetters) {
-                const key = document.createElement('button');
-                key.className = 'key';
-                key.textContent = letter;
-                key.onclick = () => checkLetter(letter);
-                
-                if (usedLetters.includes(letter)) {
-                    key.classList.add('used');
+            let currentRow = document.createElement('div');
+            currentRow.className = 'keyboard-row';
+            keyboard.appendChild(currentRow);
+
+            russianLetters.forEach((letter, index) => {
+                if (index > 0 && index % 10 === 0) {
+                    currentRow = document.createElement('div');
+                    currentRow.className = 'keyboard-row';
+                    keyboard.appendChild(currentRow);
                 }
+
+                const keyBtn = document.createElement('button');
+                keyBtn.className = 'key-btn';
+                if (usedLetters.includes(letter)) {
+                    const currentWord = words[currentWordIndex];
+                    if (currentWord.word.includes(letter)) {
+                        keyBtn.classList.add('correct');
+                    } else {
+                        keyBtn.classList.add('wrong');
+                    }
+                    keyBtn.disabled = true;
+                }
+                keyBtn.textContent = letter;
+                keyBtn.onclick = () => {
+                    checkLetter(letter);
+                    startTimer(); // Сбрасываем таймер при каждом нажатии
+                };
                 
-                keyboard.appendChild(key);
-            }
+                currentRow.appendChild(keyBtn);
+            });
         }
 
-        // Создание цепи с лампочками
+        // ========== СОЗДАНИЕ ЦЕПИ С ЛАМПОЧКАМИ ==========
         function createCircuit() {
             const circuit = document.getElementById('circuit');
             circuit.innerHTML = '';
@@ -738,185 +933,71 @@
             }
         }
 
-        // Обновление информации о попытках
-        function updateAttemptsInfo() {
-            document.getElementById('attemptsInfo').textContent = 
-                `Осталось попыток: ${maxAttempts - wrongAttempts}`;
-        }
+        // ========== ПРОВЕРКА БУКВЫ ==========
+        function checkLetter(letter) {
+            if (usedLetters.includes(letter)) return;
 
+            usedLetters.push(letter);
+            const currentWord = words[currentWordIndex];
 
-
-
-
-
-      // Проверка буквы
-function checkLetter(letter) {
-    if (usedLetters.includes(letter)) return;
-
-    usedLetters.push(letter);
-    const wordData = words[currentWordIndex];
-    const currentTeam = currentTeams[currentTeamIndex];
-
-    // Обновляем клавиатуру
-    const key = Array.from(document.querySelectorAll('.key'))
-        .find(k => k.textContent === letter);
-    
-    if (wordData.word.includes(letter)) {
-        // Правильная буква
-        key.classList.add('correct', 'used');
-        displayWord(wordData.word);
-        
-        // Проверяем, угадано ли всё слово
-        if (isWordGuessed(wordData.word)) {
-            // Начисляем очки по новой системе
-            let points;
-            if (wrongAttempts === 0) {
-                points = 3;       // Угадал без ошибок
-            } else if (wrongAttempts === 1) {
-                points = 2;       // 1 ошибка
+            createVirtualKeyboard();
+            
+            if (currentWord.word.includes(letter)) {
+                displayWord(currentWord.word);
+                
+                if (isWordGuessed(currentWord.word)) {
+                    stopTimer();
+                    
+                    let points = calculatePoints();
+                    
+                    // НАЧИСЛЯЕМ БАЛЛЫ ТЕКУЩЕЙ КОМАНДЕ (которая отвечает)
+                    const currentTeam = teams[answeringTeamIndex];
+                    scores[currentTeam.name] += points;
+                    currentTeam.score = scores[currentTeam.name];
+                    
+                    showPointsMessage(points, wrongAttempts, currentTeam.name);
+                    
+                    document.getElementById('nextWordBtn').style.display = 'block';
+                }
             } else {
-                points = 1;       // 2 и более ошибок
+                wrongAttempts++;
+                createCircuit();
+                updateAttemptsInfo();
+                
+                if (wrongAttempts >= maxAttempts) {
+                    stopTimer();
+                    
+                    revealWord(currentWord.word);
+                    
+                    showFailMessage();
+                    
+                    document.getElementById('nextWordBtn').style.display = 'block';
+                }
             }
-            
-            scores[currentTeam.name] += points;
-            updateScore(currentTeam.name);
-            
-            // Показываем сообщение о баллах
-            showPointsMessage(points, wrongAttempts);
-            
-            // Показываем кнопку следующего слова
-            document.getElementById('nextWordBtn').style.display = 'block';
         }
-    } else {
-        // Неправильная буква
-        key.classList.add('incorrect', 'used');
-        wrongAttempts++;
-        createCircuit();
-        updateAttemptsInfo();
-        
-        // Проверяем, закончились ли попытки
-        if (wrongAttempts >= maxAttempts) {
-            // Показываем загаданное слово
-            revealWord(wordData.word);
-            
-            // Сообщение о провале
-            showFailMessage();
-            
-            document.getElementById('nextWordBtn').style.display = 'block';
-        }
-    }
-}
 
-// Функция для показа сообщения о баллах
-function showPointsMessage(points, attempts) {
-    const messageContainer = document.createElement('div');
-    messageContainer.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        padding: 25px;
-        border-radius: 20px;
-        border: 3px solid #FFD700;
-        text-align: center;
-        z-index: 1000;
-        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        animation: fadeIn 0.5s ease;
-    `;
-    
-    let message = '';
-    if (attempts === 0) {
-        message = `🎯 ИДЕАЛЬНО! +3 балла<br>Угадали без единой ошибки!`;
-    } else if (attempts === 1) {
-        message = `👍 ОТЛИЧНО! +2 балла<br>Всего одна ошибка!`;
-    } else {
-        message = `👏 ХОРОШО! +1 балл<br>Угадали с ${attempts} ошибками`;
-    }
-    
-    messageContainer.innerHTML = `
-        <div style="font-size: 1.5em; color: #FFD700; margin-bottom: 15px;">
-            ${message}
-        </div>
-        <div style="font-size: 1.2em; color: #00ff88; margin-bottom: 20px;">
-            Команда "${currentTeams[currentTeamIndex].name}" получает ${points} балл${points > 1 ? 'а' : ''}!
-        </div>
-        <button onclick="this.parentElement.remove()" 
-                style="
-                    padding: 10px 25px;
-                    background: linear-gradient(45deg, #00b4db, #0083b0);
-                    color: white;
-                    border: none;
-                    border-radius: 15px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                ">
-            Продолжить
-        </button>
-    `;
-    
-    document.body.appendChild(messageContainer);
-    
-    // Автоудаление через 3 секунды
-    setTimeout(() => {
-        if (messageContainer.parentElement) {
-            messageContainer.remove();
+        // ========== РАСЧЕТ ОЧКОВ (ОТ 1 ДО 6 БАЛЛОВ В ЗАВИСИМОСТИ ОТ ОШИБОК) ==========
+        function calculatePoints() {
+            // Баллы в зависимости от количества ошибок
+            switch(wrongAttempts) {
+                case 0:
+                    return 6;  // Без ошибок
+                case 1:
+                    return 5;  // 1 ошибка
+                case 2:
+                    return 4;  // 2 ошибки
+                case 3:
+                    return 3;  // 3 ошибки
+                case 4:
+                    return 2;  // 4 ошибки
+                case 5:
+                    return 1;  // 5 ошибок (слово разгадано, но все попытки использованы)
+                default:
+                    return 1;
+            }
         }
-    }, 3000);
-}
 
-// Функция для показа сообщения о провале
-function showFailMessage() {
-    const messageContainer = document.createElement('div');
-    messageContainer.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        padding: 25px;
-        border-radius: 20px;
-        border: 3px solid #ff4444;
-        text-align: center;
-        z-index: 1000;
-        box-shadow: 0 10px 30px rgba(255, 68, 68, 0.3);
-        animation: fadeIn 0.5s ease;
-    `;
-    
-    messageContainer.innerHTML = `
-        <div style="font-size: 1.5em; color: #ff4444; margin-bottom: 15px;">
-            ❌ ЗАКОНЧИЛИСЬ ПОПЫТКИ!
-        </div>
-        <div style="font-size: 1.2em; color: #ffaa00; margin-bottom: 20px;">
-            Правильный ответ показан на экране<br>
-            Попробуйте в следующем слове!
-        </div>
-        <button onclick="this.parentElement.remove()" 
-                style="
-                    padding: 10px 25px;
-                    background: linear-gradient(45deg, #00b4db, #0083b0);
-                    color: white;
-                    border: none;
-                    border-radius: 15px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                ">
-            Продолжить
-        </button>
-    `;
-    
-    document.body.appendChild(messageContainer);
-    
-    // Автоудаление через 3 секунды
-    setTimeout(() => {
-        if (messageContainer.parentElement) {
-            messageContainer.remove();
-        }
-    }, 3000);
-}
-        // Проверка, угадано ли всё слово
+        // ========== ПРОВЕРКА, УГАДАНО ЛИ СЛОВО ==========
         function isWordGuessed(word) {
             for (let letter of word) {
                 if (letter !== ' ' && !usedLetters.includes(letter)) {
@@ -926,7 +1007,7 @@ function showFailMessage() {
             return true;
         }
 
-        // Показать загаданное слово
+        // ========== ПОКАЗ ЗАГАДАННОГО СЛОВА ==========
         function revealWord(word) {
             const wordDisplay = document.getElementById('wordDisplay');
             wordDisplay.innerHTML = '';
@@ -934,12 +1015,11 @@ function showFailMessage() {
             for (let i = 0; i < word.length; i++) {
                 const letter = word[i];
                 const letterElement = document.createElement('span');
+                letterElement.className = 'letter';
                 
                 if (letter === ' ') {
-                    letterElement.className = 'letter space';
                     letterElement.innerHTML = '&nbsp;';
                 } else {
-                    letterElement.className = 'letter';
                     letterElement.textContent = letter;
                     letterElement.style.color = '#ff4444';
                 }
@@ -948,93 +1028,146 @@ function showFailMessage() {
             }
         }
 
-        // Обновление счета
-        function updateScore(teamName) {
-            const scoreElement = document.getElementById(`score-${teamName}`);
-            const points = scores[teamName];
+        // ========== ПОКАЗ СООБЩЕНИЙ ==========
+        function showPointsMessage(points, attempts, teamName) {
+            let message = '';
+            let emoji = '';
             
-            scoreElement.innerHTML = `
-                <div class="team-score-info">
-                    <span class="team-icon">${currentTeams.find(t => t.name === teamName).icon}</span>
-                    <span class="team-name">${teamName}</span>
-                </div>
-                <div class="team-stats">
-                    <span class="team-points">${points}</span>
+            switch(attempts) {
+                case 0:
+                    message = `🎯 ИДЕАЛЬНО! Без ошибок!`;
+                    emoji = '🎯';
+                    break;
+                case 1:
+                    message = `👍 ОТЛИЧНО! Всего одна ошибка!`;
+                    emoji = '👍';
+                    break;
+                case 2:
+                    message = `👏 ХОРОШО! С двумя ошибками`;
+                    emoji = '👏';
+                    break;
+                case 3:
+                    message = `😊 НЕПЛОХО! С тремя ошибками`;
+                    emoji = '😊';
+                    break;
+                case 4:
+                    message = `🤔 НОРМАЛЬНО! С четырьмя ошибками`;
+                    emoji = '🤔';
+                    break;
+                case 5:
+                    message = `😅 ЕЛЕ-ЕЛЕ! С пятью ошибками`;
+                    emoji = '😅';
+                    break;
+                default:
+                    message = `Угадали слово!`;
+                    emoji = '✅';
+            }
+            
+            showMessage(`${emoji} ПРАВИЛЬНО!`, 
+                       `${message}<br><br>Команда "${teamName}" получает <strong>${points} балл${getPointsEnding(points)}!</strong>`,
+                       'success');
+            
+            // Обновляем счет команды
+            updateTeamDisplay();
+        }
+
+        function getPointsEnding(points) {
+            if (points === 1) return '';
+            if (points >= 2 && points <= 4) return 'а';
+            return 'ов';
+        }
+
+        function showFailMessage() {
+            showMessage('❌ ЗАКОНЧИЛИСЬ ПОПЫТКИ!',
+                       'Правильный ответ показан на экране.<br>Команда не получает баллов.',
+                       'error');
+        }
+
+        function showMessage(title, content, type) {
+            const colors = {
+                success: '#FFD700',
+                warning: '#FFA500',
+                error: '#FF5252'
+            };
+
+            const overlay = document.createElement('div');
+            overlay.className = 'message-overlay';
+            overlay.innerHTML = `
+                <div class="message-content" style="border-color: ${colors[type] || '#4FC3F7'}">
+                    <h2 style="color: ${colors[type] || '#4FC3F7'}; margin-bottom: 20px;">${title}</h2>
+                    <div style="font-size: 1.3em; margin-bottom: 25px; line-height: 1.5;">
+                        ${content}
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="
+                                padding: 12px 30px;
+                                background: linear-gradient(45deg, #00b4db, #0083b0);
+                                color: white;
+                                border: none;
+                                border-radius: 15px;
+                                font-size: 1.1em;
+                                font-weight: bold;
+                                cursor: pointer;
+                            ">
+                        Продолжить
+                    </button>
                 </div>
             `;
             
-            scoreElement.classList.add('score-update');
-            setTimeout(() => scoreElement.classList.remove('score-update'), 300);
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                if (overlay.parentElement) {
+                    overlay.remove();
+                }
+            }, 4000);
         }
 
-        // Следующее слово
+        // ========== СЛЕДУЮЩЕЕ СЛОВО ==========
         function nextWord() {
+            // Увеличиваем индекс слова
             currentWordIndex++;
-            currentTeamIndex = (currentTeamIndex + 1) % currentTeams.length;
+            
+            // Переходим к следующей команде для ОТВЕТА на следующее слово
+            answeringTeamIndex = (answeringTeamIndex + 1) % teams.length;
+            
             startNewWord();
         }
 
-        // Конец игры
-        function endGame() {
-            let winners = [];
-            let maxScore = 0;
+        // ========== ЗАВЕРШЕНИЕ ИГРЫ ==========
+        function finishGame() {
+            // Сортируем команды по очкам
+            const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
             
-            currentTeams.forEach(team => {
-                if (scores[team.name] > maxScore) {
-                    maxScore = scores[team.name];
-                    winners = [team];
-                } else if (scores[team.name] === maxScore) {
-                    winners.push(team);
-                }
-            });
-
-            const finalScreen = document.createElement('div');
-            finalScreen.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.9);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-            `;
-
+            const overlay = document.createElement('div');
+            overlay.className = 'message-overlay';
+            
             let winnerText;
-            if (winners.length === 1) {
-                winnerText = `🎉 ПОБЕДИТЕЛЬ!<br>Команда ${winners[0].icon} ${winners[0].name}<br>${maxScore} очков`;
+            if (sortedTeams.length === 1 || sortedTeams[0].score > sortedTeams[1].score) {
+                winnerText = `🎉 ПОБЕДИТЕЛЬ!<br>${sortedTeams[0].name}<br>${sortedTeams[0].score} баллов`;
             } else {
-                const winnerNames = winners.map(w => `${w.icon} ${w.name}`).join('<br>');
-                winnerText = `🎉 НИЧЬЯ!<br>${winnerNames}<br>${maxScore} очков`;
+                const winnerNames = sortedTeams.filter(t => t.score === sortedTeams[0].score)
+                    .map(t => t.name).join('<br>');
+                winnerText = `🎉 НИЧЬЯ!<br>${winnerNames}<br>${sortedTeams[0].score} баллов`;
             }
-
-            finalScreen.innerHTML = `
-                <div style="
-                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                    padding: 40px;
-                    border-radius: 20px;
-                    border: 3px solid #FFD700;
-                    text-align: center;
-                    max-width: 500px;
-                    width: 90%;
-                ">
-                    <h2 style="color: #FFD700; margin-bottom: 30px; font-size: 2em;">РЕЗУЛЬТАТЫ ИГРЫ</h2>
-                    <div style="font-size: 1.5em; margin-bottom: 30px; line-height: 1.5;">
+            
+            overlay.innerHTML = `
+                <div class="message-content" style="border-color: #FFD700">
+                    <h2 style="color: #FFD700; margin-bottom: 30px; font-size: 2em;">🏆 ИГРА ЗАВЕРШЕНА!</h2>
+                    <div style="font-size: 1.5em; margin-bottom: 25px; line-height: 1.5;">
                         ${winnerText}
                     </div>
                     <div style="margin-bottom: 30px;">
-                        <h3 style="color: #00b4db; margin-bottom: 15px;">Итоговые результаты:</h3>
-                        ${currentTeams.map(team => `
+                        <h3 style="color: #4FC3F7; margin-bottom: 15px;">Итоговые результаты:</h3>
+                        ${sortedTeams.map((team, index) => `
                             <div style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.2em;">
-                                <span>${team.icon} ${team.name}</span>
-                                <span style="color: #00ff88;">${scores[team.name]} очков</span>
+                                <span>${index + 1}. ${team.name}</span>
+                                <span style="color: #FFD700;">${team.score} баллов</span>
                             </div>
                         `).join('')}
                     </div>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button onclick="this.parentElement.parentElement.remove(); location.reload()" 
+                        <button onclick="location.reload()" 
                                 style="
                                     padding: 15px 30px;
                                     background: linear-gradient(45deg, #00b4db, #0083b0);
@@ -1063,12 +1196,9 @@ function showFailMessage() {
                     </div>
                 </div>
             `;
-
-            document.body.appendChild(finalScreen);
+            
+            document.body.appendChild(overlay);
         }
-
-        // Запуск при загрузке
-        window.onload = initializeGame;
     </script>
 </body>
 </html>
