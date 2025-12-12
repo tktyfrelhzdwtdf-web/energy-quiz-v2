@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>День Энергетика - Главная</title>
+    <title>Энерговикторина - День энергетика</title>
     <style>
         * {
             margin: 0;
@@ -12,239 +12,476 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 50%, #2a2a6a 100%);
+            color: #ffffff;
             min-height: 100vh;
             line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Шапка */
         .header {
             text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            padding: 50px 0;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 25px;
             margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            border: 4px solid #FFD700;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FFD700, #4FC3F7, #00ff88, #FF4081);
         }
 
         .header h1 {
-            font-size: 3.5em;
+            font-size: 4.5em;
             margin-bottom: 20px;
-            background: linear-gradient(45deg,  #FFD700, #FFA500, #FF8C00);
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
-        .header .subtitle {
-            font-size: 1.5em;
-            opacity: 0.9;
-            margin-bottom: 30px;
+        .header p {
+            font-size: 1.6em;
+            color: #E6F7FF;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .content-section {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
+        .highlight {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.1em;
         }
 
-        .section-title {
-            color: #00b4db;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .history-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .history-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 4px solid #00b4db;
-        }
-
-        .history-card h3 {
-            color: #00ff88;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        /* Стили для выбора команд */
-        .team-selection {
-            text-align: center;
-        }
-
+        /* Выбор количества команд */
         .team-count-selector {
-            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            border: 3px solid #4FC3F7;
+            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.15);
+            backdrop-filter: blur(10px);
+            text-align: center;
         }
 
-        #teamCount {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background: #1a1a1a;
-            color: white;
-            border: 2px solid #00b4db;
-            border-radius: 10px;
+        .team-count-selector h3 {
+            color: #4FC3F7;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
         }
 
-        .team-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+        .count-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
             margin: 30px 0;
         }
 
-        .team-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid transparent;
-            text-align: center;
+        .count-btn {
+            padding: 20px 40px;
+            border: 3px solid #4FC3F7;
+            background: rgba(79, 195, 247, 0.15);
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
-        .team-icon {
+        .count-btn:hover {
+            background: rgba(79, 195, 247, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.3);
+        }
+
+        .count-btn.active {
+            background: #4FC3F7;
+            color: #1A237E;
+            border-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(79, 195, 247, 0.4);
+        }
+
+        .count-btn .number {
             font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .team-name {
-            font-size: 1.3em;
             font-weight: bold;
         }
 
-        .control-buttons {
+        .count-btn .label {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        /* Создание команд */
+        .team-creation {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 50px;
+            border: 3px solid #00E676;
+            box-shadow: 0 10px 25px rgba(0, 230, 118, 0.15);
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .team-creation h2 {
+            color: #00E676;
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .team-creation h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00E676, transparent);
+        }
+
+        .team-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .team-input {
+            padding: 18px 25px;
+            border: 2px solid #4FC3F7;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 1.3em;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.1);
+        }
+
+        .team-input:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .team-input::placeholder {
+            color: #B3E5FC;
+            font-style: italic;
+        }
+
+        /* Кнопки */
+        .button-group {
             display: flex;
-            gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            gap: 25px;
             flex-wrap: wrap;
+            margin-top: 35px;
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 20px 40px;
             border: none;
-            border-radius: 25px;
-            font-size: 1.1em;
+            border-radius: 18px;
+            font-size: 1.4em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary {
-            background: linear-gradient(45deg,#FFD700, #FFA500, #FF8C00 );
+            background: linear-gradient(135deg, #4FC3F7, #2196F3);
             color: white;
+            border: 2px solid #29B6F6;
         }
 
         .btn-secondary {
-            background: linear-gradient(45deg, #00ff88, #00cc66);
-            color: white;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1A237E;
+            border: 2px solid #FFC107;
         }
 
-        .btn-music {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #333;
+        .btn-success {
+            background: linear-gradient(135deg, #00E676, #00C853);
+            color: white;
+            border: 2px solid #4CAF50;
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 180, 219, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Стили для музыки */
-        .music-player {
+        .btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Созданные команды */
+        .created-teams {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            border-radius: 25px;
+            margin-top: 40px;
+            border: 3px solid #FF4081;
+            box-shadow: 0 10px 25px rgba(255, 64, 129, 0.15);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .created-teams h3 {
+            color: #FF4081;
+            font-size: 2.2em;
+            margin-bottom: 25px;
             text-align: center;
-            margin: 20px 0;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
         }
 
-        audio {
-            width: 100%;
-            max-width: 500px;
-            margin: 20px 0;
-            border-radius: 10px;
-        }
-
-        /* Стили для навигации по играм */
-        .games-grid {
+        .teams-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
+        }
+
+        .team-item {
+            background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(33, 150, 243, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #4FC3F7;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.1);
+        }
+
+        .team-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.25);
+            border-color: #FFD700;
+        }
+
+        .team-name {
+            font-size: 1.7em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-score {
+            font-size: 1.4em;
+            color: #00E676;
+            font-weight: 600;
+        }
+
+        /* Викторины */
+        .section-title {
+            text-align: center;
+            color: #FFD700;
+            font-size: 3em;
+            margin: 50px 0 40px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 40%;
+            width: 20%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
             margin-top: 30px;
         }
 
-        .game-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 15px;
+        .quiz-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            padding: 35px 30px;
+            border-radius: 25px;
             text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
             text-decoration: none;
             color: white;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #00b4db;
-            box-shadow: 0 10px 25px rgba(0, 180, 219, 0.3);
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4FC3F7, #00E676, #FFD700, #FF4081);
         }
 
-        .game-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+        .quiz-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
         }
 
-        .game-title {
-            font-size: 1.4em;
+        .quiz-icon {
+            font-size: 5em;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .quiz-title {
+            font-size: 2.2em;
+            margin-bottom: 18px;
+            color: #FFD700;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #00b4db;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
         }
 
-        .game-desc {
-            opacity: 0.8;
-            font-size: 0.95em;
+        .quiz-description {
+            font-size: 1.3em;
+            color: #E6F7FF;
+            line-height: 1.6;
+            opacity: 0.9;
         }
 
-        /* Адаптивность */
+        /* Футер */
+        .footer {
+            text-align: center;
+            margin-top: 70px;
+            padding: 30px;
+            color: #B3E5FC;
+            font-size: 1.1em;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Мобильная адаптация */
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 2.5em;
+                font-size: 2.8em;
             }
             
-            .history-content {
+            .header p {
+                font-size: 1.3em;
+                padding: 0 15px;
+            }
+            
+            .quiz-grid {
                 grid-template-columns: 1fr;
             }
             
-            .team-cards {
+            .team-inputs {
                 grid-template-columns: 1fr;
             }
             
-            .games-grid {
-                grid-template-columns: 1fr;
+            .btn {
+                min-width: 280px;
+                padding: 18px 30px;
             }
             
-            .control-buttons {
+            .button-group {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            .count-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .count-btn {
+                width: 200px;
+            }
+            
+            .section-title {
+                font-size: 2.2em;
+            }
+            
+            .quiz-title {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Эффект свечения */
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5),
+                           0 0 20px rgba(255, 215, 0, 0.3),
+                           0 0 30px rgba(255, 215, 0, 0.1);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.7),
+                           0 0 25px rgba(255, 215, 0, 0.5),
+                           0 0 35px rgba(255, 215, 0, 0.3);
             }
         }
     </style>
@@ -252,239 +489,376 @@
 <body>
     <div class="container">
         <!-- Шапка -->
-        <div class="header">
-            <h1>День Энергетика</h1>
-            <p class="subtitle">Энергия - цифровое сердцебиение планеты</p>
+        <div class="header glow">
+            <h1>🎯 ЭНЕРГОВИКТОРИНА</h1>
+            <p>Приветствуем на праздничной викторине, посвящённой <span class="highlight">Дню энергетика</span> — профессиональному празднику работников энергетической промышленности!</p>
+            <p style="color: #FFD700; font-size: 1.4em; font-weight: bold; background: rgba(0,0,0,0.3); padding: 15px 30px; border-radius: 50px; display: inline-block;">
+                Выберите количество команд и создайте их!
+            </p>
         </div>
 
-        <!-- История праздника -->
-        <div class="content-section">
-            <h2 class="section-title">📅 История праздника</h2>
-            <div class="history-content">
-                <div class="history-card">
-                    <h3>🇷🇺 В России</h3>
-                    <p>День энергетика отмечается <strong>22 декабря</strong> - в день принятия Государственного плана электрификации России (ГОЭЛРО) в 1920 году.</p>
-                    <p>Это профессиональный праздник всех работников энергетической отрасли: от инженеров до ремонтников.</p>
-                </div>
-                <div class="history-card">
-                    <h3>🌍 В других странах</h3>
-                    <p><strong>Армения</strong> - 7 октября</p>
-                    <p><strong>Беларусь</strong> - 22 декабря</p>
-                    <p><strong>Казахстан</strong> - 3-е воскресенье декабря</p>
-                    <p><strong>Украина</strong> - 23 декабря</p>
-                </div>
-            </div>
-        </div>
-
-      
-        <!-- Выбор команд -->
-        <div class="content-section team-selection">
-            <h2 class="section-title">👥 Выбор команд</h2>
+        <!-- Выбор количества команд -->
+        <div class="team-count-selector">
+            <h3>👥 ВЫБЕРИТЕ КОЛИЧЕСТВО КОМАНД</h3>
+            <p style="font-size: 1.2em; color: #E6F7FF; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px;">
+                Для участия в викторине необходимо создать от 2 до 4 команд. 
+                Каждая команда будет соревноваться в знании энергетики!
+            </p>
             
-            <div class="team-count-selector">
-                <label for="teamCount">Количество команд:</label>
-                <select id="teamCount">
-                    <option value="2">2 команды</option>
-                    <option value="3">3 команды</option>
-                    <option value="4">4 команды</option>
-                </select>
-            </div>
-
-            <div class="team-cards" id="teamCards">
-                <!-- Команды будут сгенерированы здесь -->
-            </div>
-
-            <div class="control-buttons">
-                <button class="btn btn-secondary" onclick="shuffleTeams()">🎲 Перемешать команды</button>
-                <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить команды</button>
-            </div>
-        </div>
-
-        <!-- Навигация по играм -->
-        <div class="content-section">
-            <h2 class="section-title">🎮 Игры и задания</h2>
-            <div class="games-grid" id="gamesGrid">
-                <!-- Игры будут добавлены здесь -->
+            <div class="count-buttons">
+                <div class="count-btn" data-count="2" onclick="selectTeamCount(2)">
+                    <div class="number">2</div>
+                    <div class="label">КОМАНДЫ</div>
+                </div>
+                <div class="count-btn" data-count="3" onclick="selectTeamCount(3)">
+                    <div class="number">3</div>
+                    <div class="label">КОМАНДЫ</div>
+                </div>
+                <div class="count-btn" data-count="4" onclick="selectTeamCount(4)">
+                    <div class="number">4</div>
+                    <div class="label">КОМАНДЫ</div>
+                </div>
             </div>
             
-            <!-- Кнопка для добавления новых игр -->
-            <div class="control-buttons">
-                <button class="btn btn-secondary" onclick="addNewGame()">➕ Добавить новую игру</button>
+            <div style="margin-top: 30px; color: #FFD700; font-size: 1.2em; font-weight: bold;">
+                Выберите количество и нажмите "ПРОДОЛЖИТЬ"
             </div>
+        </div>
+
+        <!-- Создание команд -->
+        <div class="team-creation" id="teamCreation">
+            <h2>✏️ НАЗОВИТЕ КОМАНДЫ</h2>
+            <div class="team-inputs" id="teamInputs">
+                <!-- Поля будут добавляться динамически -->
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-success" onclick="createTeams()">
+                    <span style="font-size: 1.2em;">✅</span> СОЗДАТЬ КОМАНДЫ
+                </button>
+                <button class="btn btn-primary" onclick="clearTeams()">
+                    <span style="font-size: 1.2em;">🗑️</span> ОЧИСТИТЬ
+                </button>
+                <button class="btn btn-secondary" onclick="changeTeamCount()">
+                    <span style="font-size: 1.2em;">↩️</span> ИЗМЕНИТЬ КОЛИЧЕСТВО
+                </button>
+            </div>
+
+            <!-- Созданные команды -->
+            <div class="created-teams" id="createdTeams" style="display: none;">
+                <h3>🎮 ГОТОВЫЕ КОМАНДЫ</h3>
+                <div class="teams-list" id="teamsList"></div>
+                <div style="text-align: center; margin-top: 25px; color: #00E676; font-size: 1.4em; font-weight: bold; padding: 15px; background: rgba(0, 230, 118, 0.1); border-radius: 15px;">
+                    ✅ Команды сохранены! Теперь вы можете перейти к любой викторине.
+                </div>
+            </div>
+        </div>
+
+        <!-- Викторины -->
+        <h2 class="section-title">🎪 ВЫБЕРИТЕ ВИКТОРИНУ</h2>
+
+        <div class="quiz-grid">
+            <a href="ugadai-slovo.html" class="quiz-card">
+                <div class="quiz-icon">🔠</div>
+                <div class="quiz-title">Энергошифр</div>
+                <div class="quiz-description">Расшифруйте  энергетический термин по буквам! Открывайте буквы!</div>
+            </a>
+
+            <a href="ugadai-termin.html" class="quiz-card">
+                <div class="quiz-icon">❓</div>
+                <div class="quiz-title">Угадай термин</div>
+                <div class="quiz-description">По описанию определите энергетический термин. Знание терминологии!</div>
+            </a>
+
+            <a href="naydi-oshibku.html" class="quiz-card">
+                <div class="quiz-icon">🔍</div>
+                <div class="quiz-title">Найди ошибку</div>
+                <div class="quiz-description">Найдите технические ошибки в описаниях. Внимательность к деталям!</div>
+            </a>
+
+            <a href="energo-rebusy.html" class="quiz-card">
+                <div class="quiz-icon">🧩</div>
+                <div class="quiz-title">Энерго-ребусы</div>
+                <div class="quiz-description">Разгадайте энергетические ребусы на время. Командная игра!</div>
+            </a>
+
+            <a href="energo-viktorina.html" class="quiz-card">
+                <div class="quiz-icon">🏆</div>
+                <div class="quiz-title">ЭнергоВикторина</div>
+                <div class="quiz-description">Общая викторина по энергетике. Проверка общих знаний!</div>
+            </a>
+        </div>
+
+        <!-- Футер -->
+        <div class="footer">
+            <p>© 2024 Энерговикторина ко Дню энергетика</p>
+            <p style="margin-top: 10px; color: #FFD700; font-size: 1.2em;">⚡ С праздником, дорогие энергетики! ⚡</p>
         </div>
     </div>
 
     <script>
-        // Данные команд
-        const teamNames = [
-            { name: "Реактор", icon: "⚛️", color: "#FF6B6B" },
-            { name: "Вольт", icon: "⚡", color: "#4ECDC4" },
-            { name: "Ампер", icon: "🔌", color: "#45B7D1" },
-            { name: "Квант", icon: "🔬", color: "#96CEB4" },
-            { name: "Искра", icon: "✨", color: "#FFEAA7" },
-            { name: "Ток", icon: "🌊", color: "#DDA0DD" },
-            { name: "Мегаватт", icon: "💪", color: "#98D8C8" },
-            { name: "Ом", icon: "📏", color: "#F7DC6F" }
-        ];
-
-        // Данные игр
-        const games = [
-            {
-                title: "ЭнергоВикторина",
-                icon: "🎯",
-                description: "16 вопросов об энергетике России",
-                file: "energo-viktorina.html"
-            },
-            {
-                title: "Угадай термин",
-                icon: "🔤",
-                description: "Открой слово по буквам",
-                file: "ugadai-termin.html"
-            },
-            {
-                title: "Отгадай ребусы",
-                icon: "🔌",
-                description: "Ребусы",
-                file: "energo-rebusy.html"
-            },
-            {
-                title: "Найди ошибку",
-                icon: "🔍",
-                description: "Нарушения техники безопасности",
-                file: "naydi-oshibku.html"
-            },
-  {
-                title: "Энергетический шифр",
-                icon: "🔍",
-                description: "Угадай слово по буквам",
-                file: "ugadai-slovo.html"
-            }
-
-        ];
-
-        let currentTeams = [];
-
-        // Инициализация при загрузке
-        function initializePage() {
-            updateTeamSelection();
-            document.getElementById('teamCount').addEventListener('change', updateTeamSelection);
-            loadGames();
+        let selectedTeamCount = 0;
+        const emojis = ['⚡', '🔋', '💡', '⚛️', '🔌', '🌡️', '💎', '🚀'];
+        
+        // Выбор количества команд
+        function selectTeamCount(count) {
+            selectedTeamCount = count;
             
-            // Загружаем сохраненные команды, если есть
-            const savedTeams = localStorage.getItem('energyTeams');
-            if (savedTeams) {
-                currentTeams = JSON.parse(savedTeams);
-                updateTeamDisplay();
+            // Сброс активных кнопок
+            document.querySelectorAll('.count-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Активация выбранной кнопки
+            document.querySelector(`.count-btn[data-count="${count}"]`).classList.add('active');
+            
+            // Показываем блок создания команд через 0.5 секунды
+            setTimeout(() => {
+                document.getElementById('teamCreation').style.display = 'block';
+                document.getElementById('teamCreation').style.animation = 'fadeIn 0.8s ease';
+                
+                // Прокручиваем к блоку создания команд
+                document.getElementById('teamCreation').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Создаем поля для ввода
+                createTeamInputs(count);
+            }, 500);
+        }
+        
+        // Создание полей для ввода названий команд
+        function createTeamInputs(count) {
+            const teamInputs = document.getElementById('teamInputs');
+            teamInputs.innerHTML = '';
+            
+            for (let i = 1; i <= count; i++) {
+                const inputDiv = document.createElement('div');
+                inputDiv.innerHTML = `
+                    <input type="text" 
+                           class="team-input" 
+                           id="team${i}" 
+                           placeholder="Название команды ${i}" 
+                           autocomplete="off"
+                           maxlength="20">
+                `;
+                teamInputs.appendChild(inputDiv);
             }
+            
+            // Добавляем анимацию появления
+            setTimeout(() => {
+                document.querySelectorAll('.team-input').forEach((input, index) => {
+                    input.style.animation = `fadeIn 0.5s ease ${index * 0.1}s both`;
+                });
+            }, 100);
         }
-
-        // Обновление выбора команд
-        function updateTeamSelection() {
-            const teamCount = parseInt(document.getElementById('teamCount').value);
-            const teamCards = document.getElementById('teamCards');
-            teamCards.innerHTML = '';
-
-            // Выбираем случайные команды
-            const shuffledTeams = [...teamNames].sort(() => Math.random() - 0.5);
-            currentTeams = shuffledTeams.slice(0, teamCount);
-
-            updateTeamDisplay();
-        }
-
-        // Обновление отображения команд
-        function updateTeamDisplay() {
-            const teamCards = document.getElementById('teamCards');
-            teamCards.innerHTML = '';
-
-            currentTeams.forEach((team, index) => {
-                const teamCard = document.createElement('div');
-                teamCard.className = 'team-card';
-                teamCard.innerHTML = `
-                    <div class="team-icon">${team.icon}</div>
-                    <div class="team-name">${team.name}</div>
-                `;
-                teamCard.style.borderColor = team.color;
-                teamCards.appendChild(teamCard);
+        
+        // Изменить количество команд
+        function changeTeamCount() {
+            document.getElementById('teamCreation').style.display = 'none';
+            document.getElementById('createdTeams').style.display = 'none';
+            selectedTeamCount = 0;
+            
+            // Прокручиваем к выбору количества
+            document.querySelector('.team-count-selector').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
             });
         }
-
-        // Перемешать команды
-        function shuffleTeams() {
-            updateTeamSelection();
-        }
-
-        // Сохранить команды
-        function saveTeams() {
-            localStorage.setItem('energyTeams', JSON.stringify(currentTeams));
-            alert('Команды сохранены! Теперь они будут использоваться во всех играх.');
-        }
-
-        // Генерация музыки
-        function generateMusic() {
-            alert('Музыка генерируется... В будущем здесь будет настоящий генератор музыки!');
-            // Здесь можно интегрировать Web Audio API для генерации музыки
-        }
-
-        // Загрузка списка игр
-        function loadGames() {
-            const gamesGrid = document.getElementById('gamesGrid');
-            gamesGrid.innerHTML = '';
-
-            games.forEach(game => {
-                const gameCard = document.createElement('a');
-                gameCard.href = game.file;
-                gameCard.className = 'game-card';
-                gameCard.innerHTML = `
-                    <div class="game-icon">${game.icon}</div>
-                    <div class="game-title">${game.title}</div>
-                    <div class="game-desc">${game.description}</div>
-                `;
-                gamesGrid.appendChild(gameCard);
-            });
-        }
-
-        // Добавление новой игры
-        function addNewGame() {
-            const gameName = prompt('Введите название новой игры:');
-            if (gameName) {
-                const gameFile = prompt('Введите название файла (например: novaya-igra.html):');
-                if (gameFile) {
-                    games.push({
-                        title: gameName,
-                        icon: "🎮",
-                        description: "Новая игра",
-                        file: gameFile
+        
+        // Функция создания команд
+        function createTeams() {
+            const teams = [];
+            
+            // Собираем названия команд
+            for (let i = 1; i <= selectedTeamCount; i++) {
+                const input = document.getElementById(`team${i}`);
+                const teamName = input.value.trim();
+                
+                if (teamName && teamName !== '') {
+                    const teamWithEmoji = `${emojis[i-1]} ${teamName}`;
+                    teams.push({
+                        name: teamWithEmoji,
+                        score: 0
                     });
-                    loadGames();
-                    alert(`Игра "${gameName}" добавлена! Теперь создайте файл ${gameFile}`);
                 }
             }
+            
+            if (teams.length < 2) {
+                showNotification('Для начала игры нужно минимум 2 команды!', 'warning');
+                return;
+            }
+            
+            // Проверяем, что все команды имеют уникальные имена
+            const teamNames = teams.map(team => team.name.toLowerCase());
+            const uniqueNames = new Set(teamNames);
+            if (uniqueNames.size !== teams.length) {
+                showNotification('Названия команд должны быть уникальными!', 'warning');
+                return;
+            }
+            
+            // Сохраняем команды в localStorage
+            localStorage.setItem('energyQuizTeams', JSON.stringify(teams));
+            
+            // Показываем созданные команды
+            showCreatedTeams(teams);
+            
+            showNotification('✅ Команды созданы успешно!', 'success');
         }
-
-        // Запуск при загрузке
-        window.onload = initializePage;
+        
+        // Показать созданные команды
+        function showCreatedTeams(teams) {
+            const teamsList = document.getElementById('teamsList');
+            teamsList.innerHTML = '';
+            
+            teams.forEach((team, index) => {
+                const teamItem = document.createElement('div');
+                teamItem.className = 'team-item';
+                teamItem.style.animation = `fadeIn 0.5s ease ${index * 0.1}s both`;
+                teamItem.innerHTML = `
+                    <div class="team-name">${team.name}</div>
+                    <div class="team-score">0 баллов</div>
+                `;
+                teamsList.appendChild(teamItem);
+            });
+            
+            document.getElementById('createdTeams').style.display = 'block';
+            document.getElementById('createdTeams').style.animation = 'fadeIn 0.8s ease';
+            
+            // Прокручиваем к созданным командам
+            document.getElementById('createdTeams').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Очистить команды
+        function clearTeams() {
+            for (let i = 1; i <= selectedTeamCount; i++) {
+                const input = document.getElementById(`team${i}`);
+                input.value = '';
+                input.style.animation = 'pulse 0.5s ease';
+            }
+            
+            document.getElementById('createdTeams').style.display = 'none';
+            localStorage.removeItem('energyQuizTeams');
+            
+            showNotification('🗑️ Команды очищены!', 'info');
+            
+            setTimeout(() => {
+                for (let i = 1; i <= selectedTeamCount; i++) {
+                    document.getElementById(`team${i}`).style.animation = '';
+                }
+            }, 2000);
+        }
+        
+        // Показать уведомление
+        function showNotification(message, type) {
+            const colors = {
+                success: 'linear-gradient(135deg, #00E676, #00C853)',
+                warning: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                info: 'linear-gradient(135deg, #4FC3F7, #2196F3)',
+                error: 'linear-gradient(135deg, #FF4081, #F50057)'
+            };
+            
+            const notification = document.createElement('div');
+            notification.innerHTML = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type] || colors.info};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 15px;
+                font-weight: bold;
+                z-index: 1000;
+                animation: fadeIn 0.5s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                max-width: 400px;
+                text-align: center;
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeIn 0.5s ease reverse';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+        
+        // При загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTeams = localStorage.getItem('energyQuizTeams');
+            
+            if (savedTeams) {
+                const teams = JSON.parse(savedTeams);
+                selectedTeamCount = teams.length;
+                
+                // Показываем блок создания команд
+                document.getElementById('teamCreation').style.display = 'block';
+                createTeamInputs(selectedTeamCount);
+                
+                // Заполняем поля ввода
+                teams.forEach((team, index) => {
+                    const input = document.getElementById(`team${index + 1}`);
+                    if (input) {
+                        // Убираем эмодзи из названия для отображения в поле ввода
+                        const nameWithoutEmoji = team.name.replace(/^[^\w\s]+\s/, '');
+                        input.value = nameWithoutEmoji;
+                    }
+                });
+                
+                // Показываем созданные команды
+                showCreatedTeams(teams);
+                
+                // Активируем соответствующую кнопку количества
+                setTimeout(() => {
+                    const countBtn = document.querySelector(`.count-btn[data-count="${selectedTeamCount}"]`);
+                    if (countBtn) {
+                        countBtn.classList.add('active');
+                    }
+                }, 100);
+            }
+            
+            // Добавляем эффект при наведении
+            document.querySelectorAll('.quiz-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.classList.add('glow');
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('glow');
+                });
+            });
+            
+            // Эффект для кнопок выбора количества
+            document.querySelectorAll('.count-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 10px 25px rgba(79, 195, 247, 0.3)';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = 'none';
+                    }
+                });
+            });
+            
+            // Фокус на первое поле ввода при показе формы
+            document.addEventListener('animationend', function(e) {
+                if (e.target.id === 'teamCreation' && document.getElementById('team1')) {
+                    document.getElementById('team1').focus();
+                }
+            });
+        });
     </script>
-   </div> <!-- Закрывающий тег для .container -->
+     <p>Викторина создана преподавателем информатики и ИКТ Кудрявцевой Е.Ю. с помощью AI-ассистента DeepSeek <br>
+         Тверской политехнический колледж</p>            <p>© 2025 Энерговикторина</p>
 
-        <!-- Блок создателей -->
-        <div style="
-            text-align: center; 
-            margin-top: 40px; 
-            color: #aaa; 
-            font-size: 0.9em;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            max-width: 800px;
-            margin: 40px auto 20px;
-        ">
-            <p>Викторина создана преподавателем информатики и ИКТ Кудрявцевой Е.Ю. с помощью AI-ассистента DeepSeek <br> 
-               Тверской политехнический колледж</p>
-            <p>© 2025 Энерговикторина</p>
-        </div>
 </body>
-
 </html>
-
-
-
