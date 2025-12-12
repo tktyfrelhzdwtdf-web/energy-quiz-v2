@@ -213,7 +213,7 @@
             font-size: 1.3em;
         }
 
-        /* Блок вопроса - УВЕЛИЧИЛ ШРИФТ */
+        /* Блок вопроса - УМЕНЬШИЛ ШРИФТ ДЛЯ ЭЛЕКТРОННОЙ ДОСКИ */
         .question-section {
             background: rgba(255, 255, 255, 0.08);
             padding: 40px;
@@ -224,19 +224,20 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 200px;
         }
 
         .question-text {
-            font-size: 5.5em;
+            font-size: 2.2em; /* УМЕНЬШЕН ДЛЯ СООТВЕТСТВИЯ С "КОМАНДЫ" (2em) */
             font-weight: bold;
             color: #FFD700;
             text-align: center;
             margin: 20px 0;
             text-shadow: 0 4px 8px rgba(0,0,0,0.5);
-            line-height: 1.1;
+            line-height: 1.3;
         }
 
-        /* Блок подсказок */
+        /* Блок подсказок - УВЕЛИЧЕН ШРИФТ */
         .hints-section {
             background: rgba(255, 255, 255, 0.08);
             padding: 25px;
@@ -246,19 +247,20 @@
 
         .hints-section h3 {
             color: #FF9800;
-            font-size: 1.8em;
-            margin-bottom: 20px;
+            font-size: 2.2em; /* УВЕЛИЧЕН */
+            margin-bottom: 25px;
             text-align: center;
         }
 
         .hint-text {
-            font-size: 1.5em;
+            font-size: 2em; /* УВЕЛИЧЕН ДЛЯ ЭЛЕКТРОННОЙ ДОСКИ */
             color: #E0E0E0;
-            padding: 15px;
+            padding: 20px;
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            margin: 10px 0;
+            border-radius: 15px;
+            margin: 15px 0;
             display: none;
+            line-height: 1.4;
         }
 
         .hint-text.active {
@@ -297,15 +299,15 @@
 
         .answer-section h3 {
             color: #4FC3F7;
-            font-size: 1.8em;
+            font-size: 2.2em; /* УВЕЛИЧЕН */
             margin-bottom: 20px;
             text-align: center;
         }
 
         .answer-input {
             width: 100%;
-            padding: 20px;
-            font-size: 2em;
+            padding: 25px;
+            font-size: 2.5em; /* УВЕЛИЧЕН ДЛЯ ЭЛЕКТРОННОЙ ДОСКИ */
             border: 3px solid #4FC3F7;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.1);
@@ -366,21 +368,52 @@
             }
             
             .question-text {
-                font-size: 4em;
+                font-size: 2em;
+            }
+            
+            .hint-text {
+                font-size: 1.8em;
+            }
+            
+            .answer-input {
+                font-size: 2em;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .question-text {
+                font-size: 1.8em;
+            }
+            
+            .hints-section h3 {
+                font-size: 1.8em;
+            }
+            
+            .hint-text {
+                font-size: 1.6em;
+            }
+            
+            .answer-section h3 {
+                font-size: 1.8em;
+            }
+            
+            .answer-input {
+                font-size: 1.8em;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Таймер -->
-    <div class="timer" id="timer">⏱️ 40 сек</div>
+    <div class="timer" id="timer">⏱️ 50 сек</div>
 
     <div class="container">
         <!-- Шапка - уплотнённая -->
         <div class="header">
             <h1>🧩 ЭНЕРГО-РЕБУСЫ</h1>
             <div class="header-subtitle">
-                Разгадывайте ребусы на время! 40 секунд на ответ. 1/2/3 балла за правильный ответ
+                Разгадывайте ребусы на время! 50 секунд на ответ. 1/2/3 балла за правильный ответ
             </div>
             
             <div class="control-panel">
@@ -619,7 +652,7 @@
         let usedRebuses = new Set(); // Хранит ID использованных ребусов (1-12)
         let availableRebusesForTeams = []; // Массив доступных ребусов для каждой команды
         let timerInterval = null;
-        let timeLeft = 40;
+        let timeLeft = 50; // УВЕЛИЧЕНО ДО 50 СЕКУНД
         let currentHintIndex = 0;
         let rebusCountForCurrentTeam = 0; // Счётчик ребусов для текущей команды
         const REBUSES_PER_TEAM = 3; // Каждая команда получает 3 уникальных ребуса
@@ -791,7 +824,9 @@
             document.getElementById('currentTeamName').textContent = teams[currentTeamIndex].name;
             document.getElementById('currentRebusNum').textContent = rebusCountForCurrentTeam + 1;
             document.getElementById('rebusImage').src = rebus.image;
-            document.getElementById('questionText').innerHTML = `РЕБУС ${rebusCountForCurrentTeam + 1}<br><span style="font-size:0.6em;">для команды "${teams[currentTeamIndex].name}"</span>`;
+            
+            // ИЗМЕНЕНО: убрали "для команды"
+            document.getElementById('questionText').innerHTML = `РЕБУС ${rebusCountForCurrentTeam + 1}`;
             
             // Сбрасываем подсказки
             currentHintIndex = 0;
@@ -819,7 +854,7 @@
         }
 
         function startTimer() {
-            timeLeft = 40;
+            timeLeft = 50; // УВЕЛИЧЕНО ДО 50 СЕКУНД
             document.getElementById('timer').textContent = `⏱️ ${timeLeft} сек`;
             document.getElementById('timer').style.animation = 'none';
             
@@ -851,7 +886,7 @@
             const rebusArrayIndex = availableRebusesForTeams[currentTeamIndex][teamRebusIndex];
             const rebus = rebuses[rebusArrayIndex];
             
-            document.getElementById('questionText').innerHTML = `⏰ ВРЕМЯ ВЫШЛО!<br><span style="font-size:0.5em;color:#81C784">Ответ: ${rebus.answer}</span>`;
+            document.getElementById('questionText').innerHTML = `⏰ ВРЕМЯ ВЫШЛО!<br><span style="font-size:0.6em;color:#81C784">Ответ: ${rebus.answer}</span>`;
             
             setTimeout(() => {
                 rebusCountForCurrentTeam++;
@@ -886,9 +921,9 @@
             
             if (isCorrect) {
                 teams[currentTeamIndex].score = (teams[currentTeamIndex].score || 0) + points;
-                document.getElementById('questionText').innerHTML = `✅ ПРАВИЛЬНО!<br><span style="font-size:0.5em;color:#00ff88">+${points} баллов</span>`;
+                document.getElementById('questionText').innerHTML = `✅ ПРАВИЛЬНО!<br><span style="font-size:0.6em;color:#00ff88">+${points} баллов</span>`;
             } else {
-                document.getElementById('questionText').innerHTML = `❌ НЕПРАВИЛЬНО!<br><span style="font-size:0.5em;color:#81C784">Ответ: ${rebus.answer}</span>`;
+                document.getElementById('questionText').innerHTML = `❌ НЕПРАВИЛЬНО!<br><span style="font-size:0.6em;color:#81C784">Ответ: ${rebus.answer}</span>`;
             }
             
             renderTeams();
@@ -911,7 +946,7 @@
             const rebusArrayIndex = availableRebusesForTeams[currentTeamIndex][teamRebusIndex];
             const rebus = rebuses[rebusArrayIndex];
             
-            document.getElementById('questionText').innerHTML = `⏭️ ПРОПУЩЕНО!<br><span style="font-size:0.5em;color:#81C784">Ответ: ${rebus.answer}</span>`;
+            document.getElementById('questionText').innerHTML = `⏭️ ПРОПУЩЕНО!<br><span style="font-size:0.6em;color:#81C784">Ответ: ${rebus.answer}</span>`;
             
             document.getElementById('hintBtn').disabled = true;
             document.getElementById('checkBtn').disabled = true;
