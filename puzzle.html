@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Собери пазлы - Электротехника</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+        }
+
+        .main-header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #FFD700, #FFEE58);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .main-header p {
+            color: #fff;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff4444, #ff6b6b);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: white;
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(45deg, #00b4db, #0083b0);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 68, 68, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-tertiary:hover {
+            box-shadow: 0 5px 20px rgba(0, 180, 219, 0.4);
+        }
+
+        .puzzles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .puzzle-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            border: 3px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .puzzle-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid;
+        }
+
+        .puzzle-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .puzzle-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .puzzle-desc {
+            color: #aaa;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 3px;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .puzzle-cell {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .puzzle-cell:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .puzzle-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .puzzle-cell.has-piece img {
+            display: block;
+        }
+
+        .pieces-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            min-height: 80px;
+        }
+
+        .puzzle-piece {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.1);
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .puzzle-piece img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .puzzle-piece.dragging {
+            opacity: 0.7;
+            transform: scale(1.05);
+            z-index: 100;
+        }
+
+        .puzzle-piece.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(0.9);
+        }
+
+        .puzzle-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .puzzle-timer {
+            font-size: 1.1em;
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .puzzle-progress {
+            font-size: 1em;
+            color: #FFD700;
+        }
+
+        .complete-badge {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .teams-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 40px;
+            border: 3px solid #00b4db;
+        }
+
+        .teams-title {
+            color: #00b4db;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-icon {
+            font-size: 2em;
+        }
+
+        .team-info {
+            flex: 1;
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .team-puzzle {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .team-time {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        @media (max-width: 1200px) {
+            .puzzles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .puzzles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .puzzle-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .puzzle-piece {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-header">
+            <h1>🧩 СОБЕРИ ПАЗЛЫ</h1>
+            <p>Пусть победит быстрейший! Перетащите детали на игровое поле 3×3</p>
+            <div>
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                    ← На главную
+                </button>
+                <button class="btn btn-primary" onclick="startAllPuzzles()">
+                    ▶️ Старт для всех команд
+                </button>
+            </div>
+        </div>
+
+        <div class="puzzles-grid">
+            <div class="puzzle-card" style="border-color: #ff6b6b;">
+                <div class="puzzle-header" style="border-color: #ff6b6b;">
+                    <div class="puzzle-icon">📏</div>
+                    <div class="puzzle-title">РЕОСТАТ</div>
+                    <div class="puzzle-desc">Переменный резистор для регулировки тока</div>
+                </div>
+                
+                <div class="puzzle-container" id="puzzle1-board"></div>
+                <div class="pieces-container" id="puzzle1-pieces"></div>
+                
+                <div class="puzzle-status">
+                    <div class="puzzle-timer" id="timer1">⏱️ 00:00</div>
+                    <div class="puzzle-progress" id="progress1">🔄 0/9 частей</div>
+                    <div class="complete-badge" id="complete1" style="display: none;">✅ ГОТОВО!</div>
+                </div>
+            </div>
+
+            <div class="puzzle-card" style="border-color: #4ecdc4;">
+                <div class="puzzle-header" style="border-color: #4ecdc4;">
+                    <div class="puzzle-icon">🧲</div>
+                    <div class="puzzle-title">ЭЛЕКТРОМАГНИТ</div>
+                    <div class="puzzle-desc">Преобразует электрический ток в магнитное поле</div>
+                </div>
+                
+                <div class="puzzle-container" id="puzzle2-board"></div>
+                <div class="pieces-container" id="puzzle2-pieces"></div>
+                
+                <div class="puzzle-status">
+                    <div class="puzzle-timer" id="timer2">⏱️ 00:00</div>
+                    <div class="puzzle-progress" id="progress2">🔄 0/9 частей</div>
+                    <div class="complete-badge" id="complete2" style="display: none;">✅ ГОТОВО!</div>
+                </div>
+            </div>
+
+            <div class="puzzle-card" style="border-color: #ffd166;">
+                <div class="puzzle-header" style="border-color: #ffd166;">
+                    <div class="puzzle-icon">🔄</div>
+                    <div class="puzzle-title">ТРАНСФОРМАТОР</div>
+                    <div class="puzzle-desc">Изменяет напряжение переменного тока</div>
+                </div>
+                
+                <div class="puzzle-container" id="puzzle3-board"></div>
+                <div class="pieces-container" id="puzzle3-pieces"></div>
+                
+                <div class="puzzle-status">
+                    <div class="puzzle-timer" id="timer3">⏱️ 00:00</div>
+                    <div class="puzzle-progress" id="progress3">🔄 0/9 частей</div>
+                    <div class="complete-badge" id="complete3" style="display: none;">✅ ГОТОВО!</div>
+                </div>
+            </div>
+
+            <div class="puzzle-card" style="border-color: #ff9a76;">
+                <div class="puzzle-header" style="border-color: #ff9a76;">
+                    <div class="puzzle-icon">⚡</div>
+                    <div class="puzzle-title">ПРЕДОХРАНИТЕЛЬ</div>
+                    <div class="puzzle-desc">Защищает цепь от перегрузки по току</div>
+                </div>
+                
+                <div class="puzzle-container" id="puzzle4-board"></div>
+                <div class="pieces-container" id="puzzle4-pieces"></div>
+                
+                <div class="puzzle-status">
+                    <div class="puzzle-timer" id="timer4">⏱️ 00:00</div>
+                    <div class="puzzle-progress" id="progress4">🔄 0/9 частей</div>
+                    <div class="complete-badge" id="complete4" style="display: none;">✅ ГОТОВО!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="teams-section">
+            <h2 class="teams-title">🏆 КОМАНДЫ И РЕЗУЛЬТАТЫ</h2>
+            <div class="teams-grid">
+                <div class="team-card" style="border-color: #ff6b6b;">
+                    <div class="team-icon">📏</div>
+                    <div class="team-info">
+                        <div class="team-name">КОМАНДА 1</div>
+                        <div class="team-puzzle">Реостат</div>
+                    </div>
+                    <div class="team-time" id="team1-time">00:00</div>
+                </div>
+                
+                <div class="team-card" style="border-color: #4ecdc4;">
+                    <div class="team-icon">🧲</div>
+                    <div class="team-info">
+                        <div class="team-name">КОМАНДА 2</div>
+                        <div class="team-puzzle">Электромагнит</div>
+                    </div>
+                    <div class="team-time" id="team2-time">00:00</div>
+                </div>
+                
+                <div class="team-card" style="border-color: #ffd166;">
+                    <div class="team-icon">🔄</div>
+                    <div class="team-info">
+                        <div class="team-name">КОМАНДА 3</div>
+                        <div class="team-puzzle">Трансформатор</div>
+                    </div>
+                    <div class="team-time" id="team3-time">00:00</div>
+                </div>
+                
+                <div class="team-card" style="border-color: #ff9a76;">
+                    <div class="team-icon">⚡</div>
+                    <div class="team-info">
+                        <div class="team-name">КОМАНДА 4</div>
+                        <div class="team-puzzle">Предохранитель</div>
+                    </div>
+                    <div class="team-time" id="team4-time">00:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-primary pulse" onclick="resetAllPuzzles()">
+                🔄 Сбросить все пазлы
+            </button>
+            <button class="btn btn-tertiary" onclick="reshuffleAllPieces()">
+                🔀 Перемешать детали
+            </button>
+            <button class="btn btn-secondary" onclick="showResults()">
+                📊 Показать итоги
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const puzzlesData = {
+            1: { name: "Реостат", icon: "📏", color: "#ff6b6b", imagePath: "Media/images/reostat_", imageExtension: ".JPG" },
+            2: { name: "Электромагнит", icon: "🧲", color: "#4ecdc4", imagePath: "Media/images/electromagnet_", imageExtension: ".JPG" },
+            3: { name: "Трансформатор", icon: "🔄", color: "#ffd166", imagePath: "Media/images/transformer_", imageExtension: ".JPG" },
+            4: { name: "Предохранитель", icon: "⚡", color: "#ff9a76", imagePath: "Media/images/fuse_", imageExtension: ".JPG" }
+        };
+
+        const gameState = {
+            puzzles: {},
+            timers: {},
+            startTimes: {},
+            isActive: false
+        };
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initializePuzzles() {
+            for (let i = 1; i <= 4; i++) {
+                const puzzle = puzzlesData[i];
+                gameState.puzzles[i] = {
+                    completed: false,
+                    placedPieces: 0,
+                    placedCells: new Set(),
+                    usedPieces: new Set()
+                };
+
+                const board = document.getElementById(`puzzle${i}-board`);
+                board.innerHTML = '';
+                
+                for (let row = 0; row < 3; row++) {
+                    for (let col = 0; col < 3; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'puzzle-cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        cell.dataset.puzzle = i;
+                        cell.dataset.piece = '';
+                        
+                        const img = document.createElement('img');
+                        const pieceNumber = row * 3 + col;
+                        img.src = `${puzzle.imagePath}${pieceNumber.toString().padStart(2, '0')}${puzzle.imageExtension}`;
+                        img.alt = `${puzzle.name} часть ${row}${col}`;
+                        img.onerror = function() {
+                            this.src = `https://via.placeholder.com/150/333333/ffffff?text=${puzzle.icon}`;
+                        };
+                        cell.appendChild(img);
+                        
+                        cell.addEventListener('dragover', handleDragOver);
+                        cell.addEventListener('drop', handleDrop);
+                        
+                        board.appendChild(cell);
+                    }
+                }
+
+                const piecesContainer = document.getElementById(`puzzle${i}-pieces`);
+                piecesContainer.innerHTML = '';
+                
+                const totalPieces = 12;
+                const pieceIndices = Array.from({length: totalPieces}, (_, index) => index);
+                shuffleArray(pieceIndices);
+                
+                pieceIndices.forEach(j => {
+                    const piece = document.createElement('div');
+                    piece.className = 'puzzle-piece';
+                    piece.dataset.id = j;
+                    piece.dataset.puzzle = i;
+                    
+                    if (j < 9) {
+                        piece.dataset.correctRow = Math.floor(j / 3);
+                        piece.dataset.correctCol = j % 3;
+                    } else {
+                        piece.dataset.correctRow = -1;
+                        piece.dataset.correctCol = -1;
+                    }
+                    
+                    const img = document.createElement('img');
+                    
+                    if (j < 9) {
+                        const pieceNumber = j.toString().padStart(2, '0');
+                        img.src = `${puzzle.imagePath}${pieceNumber}${puzzle.imageExtension}`;
+                        img.alt = `${puzzle.name} часть ${pieceNumber}`;
+                        img.onerror = function() {
+                            this.src = `https://via.placeholder.com/150/333333/ffffff?text=${puzzle.icon}+${pieceNumber}`;
+                        };
+                    } else {
+                        const wrongIndex = j - 9;
+                        img.src = `${puzzle.imagePath}wrong_${wrongIndex}${puzzle.imageExtension}`;
+                        img.alt = `Лишняя деталь ${wrongIndex}`;
+                        img.onerror = function() {
+                            this.src = `https://via.placeholder.com/150/555555/ffffff?text=WRONG`;
+                        };
+                    }
+                    
+                    piece.appendChild(img);
+                    piece.draggable = false;
+                    piece.addEventListener('dragstart', handleDragStart);
+                    piecesContainer.appendChild(piece);
+                });
+
+                document.getElementById(`timer${i}`).textContent = '⏱️ 00:00';
+                document.getElementById(`progress${i}`).textContent = '🔄 0/9 частей';
+                document.getElementById(`complete${i}`).style.display = 'none';
+                document.getElementById(`team${i}-time`).textContent = '00:00';
+            }
+        }
+
+        function reshuffleAllPieces() {
+            if (gameState.isActive && !confirm("Перемешать детали во время игры?")) return;
+            
+            for (let i = 1; i <= 4; i++) {
+                const piecesContainer = document.getElementById(`puzzle${i}-pieces`);
+                const pieces = Array.from(piecesContainer.querySelectorAll('.puzzle-piece'));
+                shuffleArray(pieces);
+                piecesContainer.innerHTML = '';
+                pieces.forEach(piece => piecesContainer.appendChild(piece));
+            }
+            alert("Детали перемешаны!");
+        }
+
+        let draggedPiece = null;
+
+        function handleDragStart(e) {
+            if (!gameState.isActive) {
+                e.preventDefault();
+                return;
+            }
+            draggedPiece = e.target.closest('.puzzle-piece');
+            if (!draggedPiece) return;
+            draggedPiece.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', draggedPiece.dataset.id);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            if (!gameState.isActive) return;
+            const cell = e.currentTarget;
+            if (cell.classList.contains('puzzle-cell')) {
+                cell.style.background = 'rgba(255, 215, 0, 0.2)';
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (!gameState.isActive || !draggedPiece) return;
+            
+            const cell = e.currentTarget;
+            const puzzleId = parseInt(cell.dataset.puzzle);
+            const pieceId = parseInt(draggedPiece.dataset.id);
+            const puzzleState = gameState.puzzles[puzzleId];
+            
+            if (cell.dataset.piece !== '' || puzzleState.usedPieces.has(pieceId)) {
+                cell.style.background = '';
+                draggedPiece.classList.remove('dragging');
+                draggedPiece = null;
+                return;
+            }
+            
+            const correctRow = parseInt(draggedPiece.dataset.correctRow);
+            const correctCol = parseInt(draggedPiece.dataset.correctCol);
+            const cellRow = parseInt(cell.dataset.row);
+            const cellCol = parseInt(cell.dataset.col);
+            
+            let isCorrect = false;
+            if (correctRow !== -1 && correctCol !== -1) {
+                isCorrect = (correctRow === cellRow && correctCol === cellCol);
+            }
+            
+            if (isCorrect) {
+                cell.dataset.piece = pieceId;
+                cell.classList.add('has-piece');
+                cell.style.background = 'rgba(0, 255, 136, 0.3)';
+                
+                puzzleState.placedPieces++;
+                puzzleState.placedCells.add(`${cellRow},${cellCol}`);
+                puzzleState.usedPieces.add(pieceId);
+                
+                draggedPiece.classList.add('used');
+                draggedPiece.draggable = false;
+                
+                updateProgress(puzzleId);
+                
+                if (puzzleState.placedPieces === 9) {
+                    completePuzzle(puzzleId);
+                }
+            } else {
+                cell.style.background = 'rgba(255, 68, 68, 0.3)';
+                setTimeout(() => {
+                    cell.style.background = '';
+                }, 500);
+            }
+            
+            draggedPiece.classList.remove('dragging');
+            draggedPiece = null;
+        }
+
+        function updateProgress(puzzleId) {
+            const puzzleState = gameState.puzzles[puzzleId];
+            const progressElement = document.getElementById(`progress${puzzleId}`);
+            progressElement.textContent = `🔄 ${puzzleState.placedPieces}/9 частей`;
+            if (puzzleState.placedPieces === 9) {
+                progressElement.style.color = '#00ff88';
+            }
+        }
+
+        function completePuzzle(puzzleId) {
+            const puzzleState = gameState.puzzles[puzzleId];
+            puzzleState.completed = true;
+            
+            if (gameState.timers[puzzleId]) {
+                clearInterval(gameState.timers[puzzleId]);
+                const elapsed = Math.floor((Date.now() - gameState.startTimes[puzzleId]) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById(`team${puzzleId}-time`).textContent = `${minutes}:${seconds}`;
+                document.getElementById(`team${puzzleId}-time`).classList.add('celebrate');
+            }
+            
+            const completeBadge = document.getElementById(`complete${puzzleId}`);
+            completeBadge.style.display = 'block';
+            completeBadge.classList.add('celebrate');
+            
+            const puzzleCard = document.querySelector(`#puzzle${puzzleId}-board`).closest('.puzzle-card');
+            puzzleCard.style.boxShadow = '0 0 30px rgba(0, 255, 136, 0.5)';
+            puzzleCard.style.borderColor = '#00ff88';
+        }
+
+        function startPuzzleTimer(puzzleId) {
+            gameState.startTimes[puzzleId] = Date.now();
+            const timerElement = document.getElementById(`timer${puzzleId}`);
+            gameState.timers[puzzleId] = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - gameState.startTimes[puzzleId]) / 1000);
+                const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const seconds = (elapsed % 60).toString().padStart(2, '0');
+                timerElement.textContent = `⏱️ ${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function startAllPuzzles() {
+            if (gameState.isActive) return;
+            gameState.isActive = true;
+            document.querySelectorAll('.puzzle-piece').forEach(piece => {
+                piece.draggable = true;
+            });
+            for (let i = 1; i <= 4; i++) {
+                startPuzzleTimer(i);
+            }
+            alert('Игра началась! Пусть победит быстрейший!');
+        }
+
+        function resetAllPuzzles() {
+            gameState.isActive = false;
+            for (let timerId in gameState.timers) {
+                clearInterval(gameState.timers[timerId]);
+            }
+            gameState.timers = {};
+            gameState.startTimes = {};
+            initializePuzzles();
+            alert('Все пазлы сброшены!');
+        }
+
+        function showResults() {
+            let results = "🏆 РЕЗУЛЬТАТЫ КОМАНД:\n\n";
+            let completedCount = 0;
+            
+            for (let i = 1; i <= 4; i++) {
+                const puzzle = gameState.puzzles[i];
+                const time = document.getElementById(`team${i}-time`).textContent;
+                if (puzzle.completed) completedCount++;
+                results += `Команда ${i} (${puzzlesData[i].name}):\n`;
+                results += `• Время: ${time}\n`;
+                results += `• Статус: ${puzzle.completed ? '✅ Завершено' : '🔄 В процессе'}\n`;
+                results += `• Частей: ${puzzle.placedPieces}/9\n\n`;
+            }
+            
+            if (completedCount === 4) {
+                results += "🎉 ВСЕ КОМАНДЫ ЗАВЕРШИЛИ!";
+            } else if (completedCount > 0) {
+                results += `📊 Завершили: ${completedCount} из 4`;
+            } else {
+                results += "⏳ Команды ещё собирают пазлы...";
+            }
+            
+            alert(results);
+        }
+
+        function checkImagesLoaded() {
+            console.log('Проверка картинок...');
+            let allLoaded = true;
+            for (let i = 1; i <= 4; i++) {
+                const puzzle = puzzlesData[i];
+                const testImg = new Image();
+                testImg.src = `${puzzle.imagePath}00${puzzle.imageExtension}`;
+                testImg.onload = function() {
+                    console.log(`✓ ${puzzle.name}: OK`);
+                };
+                testImg.onerror = function() {
+                    console.error(`✗ ${puzzle.name}: ошибка загрузки`);
+                    console.error(`Путь: ${testImg.src}`);
+                    allLoaded = false;
+                };
+            }
+            return allLoaded;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePuzzles();
+            setTimeout(() => {
+                if (checkImagesLoaded()) {
+                    console.log('Все картинки готовы!');
+                } else {
+                    console.warn('Некоторые картинки не загрузились');
+                }
+            }, 1000);
+            
+            document.addEventListener('dragend', () => {
+                if (draggedPiece) {
+                    draggedPiece.classList.remove('dragging');
+                    draggedPiece = null;
+                }
+            });
+            
+            document.querySelectorAll('.puzzle-cell').forEach(cell => {
+                cell.addEventListener('dragleave', (e) => {
+                    e.currentTarget.style.background = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
