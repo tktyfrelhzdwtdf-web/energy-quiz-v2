@@ -21,25 +21,25 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* ЗАГОЛОВОК */
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             border: 3px solid #FFD700;
         }
 
-        /* ЗАГОЛОВОК - ЖЕЛТЫЙ ЦВЕТ, ИКОНКА БЕЗ ЗАЛИВКИ */
         .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
@@ -49,187 +49,151 @@
         }
 
         .header h1 .emoji-icon {
-            background: none !important;
-            -webkit-text-fill-color: initial !important;
-            filter: none !important;
-            display: inline-block;
-            font-size: 1.2em;
+            background: none;
+            -webkit-text-fill-color: initial;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
         }
 
         .header p {
-            font-size: 1em;
+            font-size: 1.1em;
             color: #ccc;
-            max-width: 800px;
-            margin: 0 auto 10px;
+            max-width: 900px;
+            margin: 0 auto 15px;
+            line-height: 1.5;
         }
 
-        .game-area {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            min-height: 400px;
+        /* ГОРИЗОНТАЛЬНЫЙ МАКЕТ */
+        .game-layout {
+            display: flex;
+            gap: 30px;
+            min-height: 700px;
         }
 
-        /* Блок команд - компактный */
+        @media (max-width: 1200px) {
+            .game-layout {
+                flex-direction: column;
+            }
+        }
+
+        /* ЛЕВАЯ КОЛОНКА - КОМАНДЫ И УПРАВЛЕНИЕ */
+        .left-column {
+            flex: 0 0 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* БЛОК КОМАНД */
         .teams-section {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid #00ff88;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
+        }
+
+        .teams-section h2 {
+            color: #00ff88;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .teams-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
 
         .team-card {
             background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
+            padding: 15px;
             border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s ease;
             border: 2px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .team-card.active {
             border-color: #FFD700;
             background: rgba(255, 215, 0, 0.1);
-            transform: scale(1.02);
+            transform: translateX(5px);
         }
 
         .team-icon {
-            font-size: 1.5em;
-            margin-bottom: 5px;
+            font-size: 1.8em;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .team-info {
+            flex: 1;
         }
 
         .team-name {
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
-            color: #00ff88;
+            color: #4FC3F7;
+            margin-bottom: 5px;
         }
 
         .team-score {
-            font-size: 0.9em;
-            color: #ccc;
-            margin-top: 5px;
-        }
-
-        /* ТЕКУЩАЯ КОМАНДА - КОМПАКТНЫЙ ВАРИАНТ */
-        .current-team-display {
-            background: rgba(255, 215, 0, 0.15);
-            padding: 10px;
-            border-radius: 12px;
-            margin: 10px 0;
-            border: 2px solid #FFD700;
-            text-align: center;
-        }
-
-        .team-info-compact {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.4em;
-            font-weight: bold;
-        }
-
-        .team-info-compact .team-indicator {
+            font-size: 1.1em;
             color: #FFD700;
-            font-size: 0.9em;
-        }
-
-        .team-info-compact .team-icon {
-            font-size: 1.3em;
-            margin: 0;
-        }
-
-        .team-info-compact .team-name {
-            font-size: 1.3em;
             font-weight: bold;
-            color: #FFD700;
-            margin: 0;
-        }
-
-        .question-counter {
-            margin-top: 5px;
-            font-size: 1em;
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            padding: 4px 10px;
-            border-radius: 15px;
-            display: inline-block;
-        }
-
-        /* ВОПРОС - БОЛЬШОЙ И ВЫДЕЛЕННЫЙ */
-        .question-container {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 2px solid #FFD700;
-            text-align: center;
-        }
-
-        .question-text {
-            font-size: 1.6em;
-            font-weight: bold;
-            color: #FFD700;
-            line-height: 1.4;
-            margin-bottom: 10px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-        }
-
-        .category-badge {
-            display: inline-block;
-            background: rgba(0, 180, 219, 0.2);
-            color: #00b4db;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            margin-top: 5px;
-            border: 1px solid rgba(0, 180, 219, 0.3);
         }
 
         /* ТАЙМЕР */
-        .timer-container {
+        .timer-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(79, 195, 247, 0.3);
             text-align: center;
-            margin: 20px 0;
+            backdrop-filter: blur(5px);
         }
 
-        .timer {
-            font-size: 2.8em;
+        .timer-section h3 {
+            color: #4FC3F7;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .timer-display {
+            font-size: 3.5em;
             font-weight: bold;
             color: #00ff88;
             margin: 10px 0;
             font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
-        .timer.warning {
+        .timer-display.warning {
             color: #ffaa00;
             animation: pulse 1s infinite;
         }
 
-        .timer.danger {
+        .timer-display.danger {
             color: #ff4444;
             animation: pulse 0.5s infinite;
         }
 
         .timer-bar {
             width: 100%;
-            height: 8px;
-            background: #333;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             overflow: hidden;
-            margin-top: 10px;
+            margin: 15px 0;
         }
 
         .timer-progress {
@@ -239,68 +203,100 @@
             transition: width 1s linear;
         }
 
-        /* ПОДСКАЗКИ */
-        .hints-container {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
+        /* ИНФОРМАЦИЯ О КОМАНДЕ */
+        .team-info-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
-            border-left: 5px solid #00b4db;
-        }
-
-        .hint {
-            font-size: 1.2em;
-            margin: 10px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            display: none;
-            animation: fadeIn 0.5s ease;
-            border-left: 4px solid transparent;
-        }
-
-        .hint.active {
-            display: block;
-            border-left-color: #00b4db;
-        }
-
-        .hint-number {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background: #00b4db;
-            border-radius: 50%;
+            border: 2px solid rgba(255, 215, 0, 0.3);
             text-align: center;
-            line-height: 30px;
-            margin-right: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .team-info-section h3 {
+            color: #FFD700;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .current-team-info {
+            font-size: 1.2em;
+        }
+
+        /* ПРАВАЯ КОЛОНКА - ИГРОВАЯ ЧАСТЬ */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* БЛОК ВОПРОСА */
+        .question-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(5px);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .question-text {
+            font-size: 2em;
             font-weight: bold;
+            color: #FFD700;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: rgba(0, 180, 219, 0.2);
+            color: #00b4db;
+            padding: 8px 20px;
+            border-radius: 25px;
             font-size: 1em;
+            border: 1px solid rgba(0, 180, 219, 0.3);
         }
 
         /* ВВОД ОТВЕТА */
         .answer-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 180, 219, 0.3);
             text-align: center;
-            margin: 20px 0;
+            backdrop-filter: blur(5px);
         }
 
         .answer-input {
-            padding: 15px 20px;
-            font-size: 1.2em;
-            width: 80%;
-            max-width: 450px;
+            padding: 20px;
+            font-size: 1.5em;
+            width: 100%;
+            max-width: 600px;
             border: 3px solid #00b4db;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .answer-input:focus {
             outline: none;
             border-color: #00ff88;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            transform: scale(1.02);
         }
 
         .answer-input.correct {
@@ -313,28 +309,28 @@
             background: rgba(255, 68, 68, 0.1);
         }
 
-        /* КНОПКИ */
-        .buttons {
+        /* КНОПКИ УПРАВЛЕНИЯ */
+        .game-controls {
             display: flex;
+            gap: 15px;
             justify-content: center;
-            gap: 12px;
+            margin-top: 20px;
             flex-wrap: wrap;
-            margin: 15px 0;
         }
 
         .btn {
-            padding: 12px 25px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 15px;
-            font-size: 1em;
+            border-radius: 12px;
+            font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 160px;
+            min-width: 200px;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #00b4db, #0083b0);
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
             color: white;
         }
 
@@ -353,136 +349,130 @@
             color: white;
         }
 
+        .btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 180, 219, 0.3);
+        }
+
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
         }
 
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 180, 219, 0.4);
-        }
-
-        /* РЕЗУЛЬТАТ */
-        .result-message {
-            text-align: center;
-            padding: 15px;
-            margin: 15px 0;
+        /* РЕЗУЛЬТАТЫ */
+        .result-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
             border-radius: 15px;
+            margin-top: 20px;
             display: none;
-            animation: slideIn 0.5s ease;
+            animation: fadeIn 0.5s ease;
         }
 
         .result-correct {
-            background: rgba(0, 255, 136, 0.15);
             border: 2px solid #00ff88;
             color: #00ff88;
         }
 
         .result-wrong {
-            background: rgba(255, 68, 68, 0.15);
             border: 2px solid #ff4444;
             color: #ff4444;
         }
 
-        .joke-container {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #FFD700;
-            font-style: italic;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* СЧЕТ */
-        .score-display {
+        .result-content {
+            font-size: 1.3em;
             text-align: center;
-            font-size: 1.1em;
-            margin: 15px 0;
-            color: #ffdd59;
-            background: rgba(255, 221, 89, 0.1);
-            padding: 12px;
-            border-radius: 15px;
+            line-height: 1.5;
         }
 
-        .points-info {
-            font-size: 0.85em;
-            color: #aaa;
-            margin-top: 5px;
-        }
-
-        /* УПРАВЛЯЮЩИЕ КНОПКИ */
-        .control-buttons {
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+        .result-content strong {
+            font-size: 1.5em !important;
+            color: #FFD700;
+            display: block;
+            margin: 10px 0;
         }
 
         /* АНИМАЦИИ */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
         /* АДАПТИВНОСТЬ */
-        @media (max-width: 768px) {
-            .answer-input {
-                width: 95%;
-                font-size: 1em;
+        @media (max-width: 1200px) {
+            .left-column {
+                flex: 0 0 350px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .game-layout {
+                flex-direction: column;
+            }
+            
+            .left-column {
+                flex: none;
+                width: 100%;
+            }
+            
+            .question-text {
+                font-size: 1.6em;
             }
             
             .btn {
-                min-width: 140px;
-                padding: 10px 15px;
+                min-width: 170px;
+                padding: 12px 25px;
             }
-            
-            .timer {
-                font-size: 2.2em;
-            }
-            
+        }
+
+        @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .teams-grid {
-                grid-template-columns: repeat(2, 1fr);
+                font-size: 2em;
             }
             
             .question-text {
                 font-size: 1.4em;
             }
             
-            .team-info-compact {
-                font-size: 1.2em;
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .buttons {
-                flex-direction: column;
-                align-items: center;
+            .timer-display {
+                font-size: 2.8em;
             }
             
             .btn {
                 width: 100%;
-                max-width: 250px;
+                max-width: 300px;
+            }
+            
+            .game-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .teams-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .answer-input {
+                font-size: 1.2em;
+                padding: 15px;
             }
         }
 
@@ -491,392 +481,316 @@
                 grid-template-columns: 1fr;
             }
             
-            .hint {
-                font-size: 1em;
-                padding: 12px;
-            }
-            
-            .hint-number {
-                width: 25px;
-                height: 25px;
-                line-height: 25px;
-                font-size: 0.9em;
-            }
-            
             .question-text {
                 font-size: 1.2em;
-                padding: 15px 10px;
             }
             
-            .question-counter {
-                font-size: 0.9em;
+            .timer-display {
+                font-size: 2.2em;
+            }
+            
+            .answer-input {
+                font-size: 1.1em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Шапка -->
         <div class="header">
-            <h1><span class="emoji-icon">⚡</span> УГАДАЙ ТЕРМИН!</h1>
-            <p>Три подсказки → один термин → 3/2/1 балл! Команды отвечают сериями по 4 вопроса.</p>
-            <button class="btn btn-primary" onclick="window.location.href='index.html'" style="padding: 8px 20px; font-size: 0.9em;">
-                ← На главную
-            </button>
+            <h1><span class="emoji-icon">❓</span> УГАДАЙ ТЕРМИН!</h1>
+            <p>50 секунд на ответ! 2 балла за быстрый ответ (первые 25 сек), 1 балл за поздний ответ.</p>
+            <div class="game-controls">
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">
+                    ← На главную
+                </button>
+                <button class="btn btn-success" id="startGameBtn" onclick="startGame()">
+                    🚀 Начать игру
+                </button>
+            </div>
         </div>
 
-        <!-- Игровая область -->
-        <div class="game-area" id="gameArea">
-            <!-- Текущая команда (компактно) -->
-            <div class="current-team-display" id="currentTeamDisplay" style="display: none;">
-                <div class="team-info-compact">
-                    <span class="team-indicator">ОТВЕЧАЕТ:</span>
-                    <span class="team-icon" id="currentTeamIcon">⚛️</span>
-                    <span class="team-name" id="currentTeamName">Реактор</span>
+        <!-- Горизонтальный макет -->
+        <div class="game-layout">
+            <!-- Левая колонка: Команды и таймер -->
+            <div class="left-column">
+                <!-- Блок команд -->
+                <div class="teams-section">
+                    <h2>👥 КОМАНДЫ</h2>
+                    <div class="teams-grid" id="teamsGrid">
+                        <!-- Команды загрузятся из JS -->
+                    </div>
                 </div>
-                <div class="question-counter" id="questionCounter">1/4</div>
-            </div>
 
-            <!-- Вопрос -->
-            <div class="question-container" id="questionContainer" style="display: none;">
-                <div class="question-text" id="questionText">
-                    Вопрос появится здесь после начала игры...
+                <!-- Таймер -->
+                <div class="timer-section" id="timerSection" style="display: none;">
+                    <h3>⏱️ ТАЙМЕР</h3>
+                    <div class="timer-display" id="timerDisplay">50</div>
+                    <div>секунд на ответ</div>
+                    <div class="timer-bar">
+                        <div class="timer-progress" id="timerBar"></div>
+                    </div>
+                    <div style="color: #ccc; margin-top: 10px; font-size: 0.9em;">
+                        ⚡ 2 балла за быстрый ответ (первые 25 сек)
+                    </div>
                 </div>
-                <div class="category-badge" id="categoryBadge">
-                    Категория: ???
-                </div>
-            </div>
 
-            <!-- Подсказки -->
-            <div class="hints-container" id="hintsContainer" style="display: none;">
-                <div class="hint active" id="hint1">
-                    <span class="hint-number">1</span>
-                    <span id="hintText1">Первая подсказка появится здесь...</span>
-                </div>
-                <div class="hint" id="hint2">
-                    <span class="hint-number">2</span>
-                    <span id="hintText2">Вторая подсказка...</span>
-                </div>
-                <div class="hint" id="hint3">
-                    <span class="hint-number">3</span>
-                    <span id="hintText3">Третья подсказка...</span>
-                </div>
-            </div>
-
-            <!-- Таймер -->
-            <div class="timer-container" id="timerContainer" style="display: none;">
-                <div class="timer" id="timer">30</div>
-                <div class="timer-bar">
-                    <div class="timer-progress" id="timerBar"></div>
-                </div>
-                <div style="color: #ccc; margin-top: 8px; font-size: 0.9em;">
-                    ⏱️ Осталось секунд
+                <!-- Информация о команде -->
+                <div class="team-info-section" id="teamInfoSection" style="display: none;">
+                    <h3>🎯 ТЕКУЩИЙ ХОД</h3>
+                    <div class="current-team-info" id="currentTeamInfo">
+                        <div style="font-size: 1.3em; color: #FFD700; margin-bottom: 8px;">
+                            Отвечает: <span id="currentTeamNameDisplay">Команда 1</span>
+                        </div>
+                        <div style="font-size: 1.1em; color: #4FC3F7;">
+                            Вопрос: <span id="currentQuestionNumber">1</span>/<span id="totalTeamQuestions">5</span>
+                        </div>
+                        <div style="font-size: 1.1em; color: #00ff88; margin-top: 10px;">
+                            Баллов: <span id="teamScoreDisplay">0</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Ввод ответа -->
-            <div class="answer-section" id="answerSection" style="display: none;">
-                <input type="text" id="answerInput" class="answer-input" 
-                       placeholder="Введите термин..." 
-                       onkeypress="if(event.key === 'Enter') checkAnswer()"
-                       autocomplete="off" disabled>
-                
-                <div class="buttons" id="gameButtons">
-                    <button class="btn btn-warning" onclick="showNextHint()" id="nextHintBtn" disabled>
-                        🔍 Следующая подсказка
+            <!-- Правая колонка: Игровая часть -->
+            <div class="right-column">
+                <!-- Вопрос -->
+                <div class="question-section" id="questionSection" style="display: none;">
+                    <div class="question-text" id="questionText">
+                        Вопрос появится здесь...
+                    </div>
+                    <div class="category-badge" id="categoryBadge">
+                        Категория: ???
+                    </div>
+                </div>
+
+                <!-- Ввод ответа -->
+                <div class="answer-section" id="answerSection" style="display: none;">
+                    <input type="text" 
+                           id="answerInput" 
+                           class="answer-input" 
+                           placeholder="Введите термин..." 
+                           onkeypress="if(event.key === 'Enter') checkAnswer()"
+                           autocomplete="off"
+                           disabled>
+                    
+                    <div class="game-controls" id="gameButtons" style="display: none;">
+                        <button class="btn btn-success" onclick="checkAnswer()" id="checkBtn" disabled>
+                            ✅ Проверить ответ
+                        </button>
+                        <button class="btn btn-danger" onclick="skipQuestion()" id="skipBtn" disabled>
+                            ⏭️ Пропустить
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Результат -->
+                <div class="result-section" id="resultSection"></div>
+
+                <!-- Управление ходом -->
+                <div class="game-controls" id="navigationButtons" style="display: none;">
+                    <button class="btn btn-primary" onclick="nextTerm()" id="nextTermBtn">
+                        ➡️ Следующий термин
                     </button>
-                    <button class="btn btn-success" onclick="checkAnswer()" id="checkBtn" disabled>
-                        ✅ Проверить ответ
-                    </button>
-                    <button class="btn btn-danger" onclick="skipQuestion()" id="skipBtn" disabled>
-                        ⏭️ Пропустить вопрос
+                    <button class="btn btn-warning" onclick="nextTeam()" id="nextTeamBtn">
+                        👥 Следующая команда
                     </button>
                 </div>
-            </div>
-
-            <!-- Результат -->
-            <div class="result-message" id="resultMessage"></div>
-            
-            <!-- Шутка -->
-            <div class="joke-container" id="jokeContainer"></div>
-
-            <!-- Счет -->
-            <div class="score-display" id="scoreDisplay" style="display: none;">
-                Баллов: <span id="currentScore">0</span> | 
-                Терминов: <span id="termsSolved">0</span>/20
-                <div class="points-info">
-                    (3 балла - 1 подсказка, 2 балла - 2 подсказки, 1 балл - 3 подсказки)
-                </div>
-            </div>
-
-            <!-- Команды -->
-            <div class="teams-section" id="teamsSection">
-                <h3 style="color: #00ff88; margin-bottom: 10px; text-align: center;">👥 Команды</h3>
-                <div class="teams-grid" id="teamsGrid">
-                    <!-- Команды загрузятся из JS -->
-                </div>
-            </div>
-
-            <!-- Кнопки управления -->
-            <div class="control-buttons">
-                <button class="btn btn-primary" id="startSeriesBtn" onclick="startSeries()">
-                    🚀 Начать серию вопросов
-                </button>
-                <button class="btn btn-primary" id="nextQuestionBtn" onclick="nextTerm()" style="display: none;">
-                    ➡️ Следующий термин
-                </button>
-                <button class="btn btn-warning" id="nextTeamBtn" onclick="nextTeamTurn()" style="display: none;">
-                    👥 Передать ход следующей команде
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // ========== КОНСТАНТЫ И ПЕРЕМЕННЫЕ ==========
+        // ========== ВОПРОСЫ ==========
         const energyTerms = [
-            // === СЕРИЯ 1: Команда 1 (вопросы 1-4) ===
+            // СЕРИЯ 1: Команда 1 (вопросы 1-5 для 4 команд, 1-10 для 2 команд)
             {
                 term: "ОТВЁРТКА",
                 variants: ["ОТВЕРТКА", "ОТВЁРТКА"],
                 category: "Инструменты",
-                hints: [
-                    "Бывает крестовая и плоская",
-                    "Используется для закручивания винтов",
-                    "У электриков есть диэлектрическая версия"
-                ],
-                joke: "Знаете, почему отвертка не ходит в школу? Потому что она и так всё знает про винтики! 🪛"
+                description: "Бывает крестовая и плоская. Используется для закручивания винтов."
             },
             {
                 term: "ТЭЦ",
                 category: "Энергообъекты",
-                hints: [
-                    "Теплоэлектроцентраль (3 буквы!)",
-                    "Производит одновременно электричество и тепло",
-                    "Обеспечивает горячей водой жилые районы"
-                ],
-                joke: "ТЭЦ - мастер на все руки: и свет даёт, и греет! 🔥"
+                description: "Теплоэлектроцентраль (3 буквы!). Производит одновременно электричество и тепло."
             },
             {
                 term: "РЕЗИСТОР",
                 category: "Электроника",
-                hints: [
-                    "Пассивный электронный компонент",
-                    "Имеет цветные полоски для маркировки",
-                    "Создаёт сопротивление в электрической цепи"
-                ],
-                joke: "Резистор всегда говорит току: 'Не так быстро, дружок!' 🛑"
+                description: "Пассивный электронный компонент. Имеет цветные полоски для маркировки."
             },
             {
                 term: "ДИОД",
                 category: "Полупроводники",
-                hints: [
-                    "Пропускает ток только в одну сторону",
-                    "Светодиод (LED) - один из видов",
-                    "Используется для выпрямления переменного тока"
-                ],
-                joke: "Диод - как сторож: только в одну сторону пропускает! →"
+                description: "Пропускает ток только в одну сторону. Светодиод (LED) - один из видов."
             },
-
-            // === СЕРИЯ 2: Команда 2 (вопросы 5-8) ===
             {
                 term: "ТЕСТЕР",
                 variants: ["ТЕСТЕР", "МУЛЬТИМЕТР"],
                 category: "Измерительные приборы",
-                hints: [
-                    "Измеряет напряжение, ток и сопротивление",
-                    "Бывает цифровой и стрелочный",
-                    "Может измерять переменное и постоянное напряжение, ток и сопротивление"
-                ],
-                joke: "Тестер всегда знает, куда течёт ток. А вот куда течёт время - не знает даже он! ⏰"
+                description: "Измеряет напряжение, ток и сопротивление. Бывает цифровой и стрелочный."
             },
             {
                 term: "АЭС",
                 category: "Энергообъекты",
-                hints: [
-                    "Атомная электростанция (3 буквы!)",
-                    "Использует ядерные реакции для производства энергии",
-                    "Топливо - уран"
-                ],
-                joke: "АЭС - самая мощная 'батарейка' на планете! ⚛️"
+                description: "Атомная электростанция (3 буквы!). Использует ядерные реакции для производства энергии."
             },
             {
                 term: "ПРЕДОХРАНИТЕЛЬ",
                 category: "Защита",
-                hints: [
-                    "Защищает от короткого замыкания",
-                    "Перегорает при превышении тока",
-                    "Бывает плавкий и автоматический"
-                ],
-                joke: "Предохранитель жертвует собой, чтобы спасти других! Настоящий герой! 🦸"
+                description: "Защищает от короткого замыкания. Перегорает при превышении тока."
             },
             {
                 term: "ПАЯЛЬНИК",
                 category: "Инструменты",
-                hints: [
-                    "Нагревается для пайки",
-                    "Использует припой и флюс",
-                    "Бывает электрический и газовый"
-                ],
-                joke: "Паяльник всегда горяч - как электрик в работе! 🔥"
+                description: "Нагревается для пайки. Использует припой и флюс."
             },
-
-            // === СЕРИЯ 3: Команда 3 (вопросы 9-12) ===
             {
                 term: "ГЭС",
                 category: "Энергообъекты",
-                hints: [
-                    "Гидроэлектростанция (3 буквы!)",
-                    "Использует энергию падающей воды",
-                    "Имеет плотину и водохранилище"
-                ],
-                joke: "ГЭС работает без перерывов - вода никогда не уходит в отпуск! 💦"
+                description: "Гидроэлектростанция (3 буквы!). Использует энергию падающей воды."
             },
             {
                 term: "АВТОМАТ",
                 category: "Защита",
-                hints: [
-                    "Автоматический выключатель",
-                    "Отключается при перегрузке",
-                    "Есть тепловой и электромагнитный расцепитель"
-                ],
-                joke: "Автомат работает сам - электрику можно и отдохнуть! 😴"
+                description: "Автоматический выключатель. Отключается при перегрузке."
             },
+
+            // Вопросы 11-20
             {
                 term: "КОНТАКТ",
                 category: "Соединения",
-                hints: [
-                    "Место соединения проводников",
-                    "Бывает разъёмный и неразъёмный",
-                    "Должен быть чистым и плотным"
-                ],
-                joke: "Хороший контакт - как хороший друг: всегда на связи! 📞"
+                description: "Место соединения проводников. Бывает разъёмный и неразъёмный."
             },
             {
                 term: "СОЕДИНЕНИЕ",
                 category: "Электрические цепи",
-                hints: [
-                    "Бывает параллельное и последовательное",
-                    "Определяет как течёт ток в цепи",
-                    "В параллельном - напряжение одинаковое"
-                ],
-                joke: "Параллельное соединение - как друзья: все под одинаковым напряжением! 🔌"
+                description: "Бывает параллельное и последовательное. Определяет как течёт ток в цепи."
             },
-
-            // === СЕРИЯ 4: Команда 4 (вопросы 13-16) ===
             {
                 term: "УРАН",
                 category: "Материалы",
-                hints: [
-                    "Радиоактивный химический элемент",
-                    "Основное топливо для атомных электростанций",
-                    "Имеет изотопы U-235 и U-238"
-                ],
-                joke: "Уран - единственное 'топливо', которое светится в темноте! ✨"
+                description: "Радиоактивный химический элемент. Основное топливо для атомных электростанций."
             },
             {
                 term: "СТАБИЛИЗАТОР",
                 category: "Защита оборудования",
-                hints: [
-                    "Стабилизирует напряжение в сети",
-                    "Защищает от скачков напряжения",
-                    "Часто используется в деревнях и частных домах"
-                ],
-                joke: "Стабилизатор - как йог: всегда сохраняет равновесие! 🧘"
+                description: "Стабилизирует напряжение в сети. Защищает от скачков напряжения."
             },
             {
                 term: "РЕЛЕ",
                 category: "Коммутация",
-                hints: [
-                    "Электромагнитный выключатель",
-                    "Управляет большой нагрузкой малым током",
-                    "Щёлкает при переключении"
-                ],
-                joke: "Реле всегда чётко щёлкает - никогда не мямлит! 🔊"
+                description: "Электромагнитный выключатель. Управляет большой нагрузкой малым током."
             },
             {
                 term: "КЛЕММА",
                 category: "Соединители",
-                hints: [
-                    "Зажим для проводов",
-                    "Бывает винтовая и пружинная",
-                    "Обеспечивает надёжный контакт"
-                ],
-                joke: "Клемма держит провода так крепко, что даже ток не вырвется! 💪"
+                description: "Зажим для проводов. Бывает винтовая и пружинная."
             },
-
-            // === ФИНАЛ: Все команды (вопросы 17-20) ===
             {
                 term: "ТРАНСФОРМАТОР",
                 category: "Электрооборудование",
-                hints: [
-                    "Устройство для изменения напряжения",
-                    "Имеет первичную и вторичную обмотки",
-                    "Бывает повышающий и понижающий"
-                ],
-                joke: "Трансформатор - мастер перевоплощений напряжения! 🔄"
+                description: "Устройство для изменения напряжения. Имеет первичную и вторичную обмотки."
             },
             {
                 term: "ПРОВОДНИК",
                 category: "Материалы",
-                hints: [
-                    "Материал, хорошо проводящий электрический ток",
-                    "Медь и алюминий - самые распространённые",
-                    "Имеет малое электрическое сопротивление"
-                ],
-                joke: "Проводник - гостеприимный хозяин для электронов! 🏠"
+                description: "Материал, хорошо проводящий электрический ток. Медь и алюминий - самые распространённые."
             },
             {
                 term: "ОСЦИЛЛОГРАФ",
                 category: "Измерения",
-                hints: [
-                    "Показывает форму электрического сигнала",
-                    "Имеет экран с сеткой",
-                    "Нужен для диагностики и настройки"
-                ],
-                joke: "Осциллограф видит ток насквозь! 👁️"
+                description: "Показывает форму электрического сигнала. Имеет экран с сеткой."
             },
             {
                 term: "ТАХОМЕТР",
                 category: "Измерения",
-                hints: [
-                    "Измеряет скорость вращения",
-                    "Показывает обороты в минуту",
-                    "Есть в автомобилях и на станках"
-                ],
-                joke: "Тахометр всегда в курсе, кто круче всех крутится! 🌀"
+                description: "Измеряет скорость вращения. Показывает обороты в минуту."
             }
         ];
 
         // ========== ИГРОВЫЕ ПЕРЕМЕННЫЕ ==========
         let currentTermIndex = 0;
-        let currentHintIndex = 0;
+        let currentTeamIndex = 0;
+        let currentTeamQuestion = 0;
+        let totalTeamQuestions = 5; // Будет пересчитано в зависимости от количества команд
         let score = 0;
         let termsSolved = 0;
         let timer;
-        let timeLeft = 30;
-        let currentTeamIndex = 0;
+        let timeLeft = 50;
+        let startTime = 0;
         let teams = [];
-        let isFinalRound = false;
-        let isSeriesActive = false;
-        let currentTeamQuestion = 0;
+        let isGameActive = false;
+        let usedQuestions = new Set(); // Для отслеживания использованных вопросов
 
-        // ========== ФУНКЦИИ УПРАВЛЕНИЯ КОМАНДАМИ ==========
+        // ========== ФУНКЦИИ ЗАГРУЗКИ КОМАНД ==========
         function loadTeams() {
-            const savedTeams = localStorage.getItem('energyTeams');
-            teams = savedTeams ? JSON.parse(savedTeams) : [];
+            // Пробуем разные ключи, которые могут использоваться в разных викторинах
+            const possibleKeys = ['energyQuizTeams', 'energyTeams', 'quizTeams', 'teams'];
+            let foundTeams = null;
             
-            if (teams.length === 0) {
+            // Ищем команды по всем возможным ключам
+            for (const key of possibleKeys) {
+                const savedTeams = localStorage.getItem(key);
+                if (savedTeams) {
+                    try {
+                        foundTeams = JSON.parse(savedTeams);
+                        console.log(`Команды загружены из ключа: ${key}`);
+                        break;
+                    } catch (e) {
+                        console.error(`Ошибка при парсинге данных из ${key}:`, e);
+                    }
+                }
+            }
+            
+            // Если команды найдены
+            if (foundTeams && Array.isArray(foundTeams) && foundTeams.length > 0) {
+                teams = foundTeams.map((team, index) => {
+                    return {
+                        name: team.name || `Команда ${index + 1}`,
+                        icon: team.icon || getRandomIcon(),
+                        color: team.color || getRandomColor(),
+                        score: team.score || 0,
+                        id: team.id || index
+                    };
+                });
+                
+                // Сохраняем в едином формате для других викторин
+                localStorage.setItem('energyQuizTeams', JSON.stringify(teams));
+                
+                console.log(`Загружено ${teams.length} команд`);
+                
+                // Рассчитываем количество вопросов на команду
+                totalTeamQuestions = Math.floor(20 / teams.length);
+                console.log(`Вопросов на команду: ${totalTeamQuestions}`);
+                
+            } else {
+                // Если команды не найдены, создаем демо-команды
+                console.warn('Команды не найдены в localStorage. Созданы демо-команды.');
                 teams = [
-                    { name: "Реактор", icon: "⚛️", color: "#FF6B6B", score: 0 },
-                    { name: "Вольт", icon: "⚡", color: "#4ECDC4", score: 0 },
-                    { name: "Ампер", icon: "🔌", color: "#45B7D1", score: 0 },
-                    { name: "Квант", icon: "🔬", color: "#96CEB4", score: 0 }
+                    { name: "Реактор", icon: "⚛️", color: "#FF6B6B", score: 0, id: 1 },
+                    { name: "Вольт", icon: "⚡", color: "#4ECDC4", score: 0, id: 2 },
+                    { name: "Ампер", icon: "🔌", color: "#45B7D1", score: 0, id: 3 },
+                    { name: "Квант", icon: "🔬", color: "#96CEB4", score: 0, id: 4 }
                 ];
-                localStorage.setItem('energyTeams', JSON.stringify(teams));
+                
+                localStorage.setItem('energyQuizTeams', JSON.stringify(teams));
+                totalTeamQuestions = 5; // Для 4 команд
             }
             
             renderTeams();
-            updateCurrentTeamDisplay();
+        }
+
+        function getRandomIcon() {
+            const icons = ["⚛️", "⚡", "🔌", "🔋", "💡", "🔬", "🔧", "🔨", "⚙️", "🎯"];
+            return icons[Math.floor(Math.random() * icons.length)];
+        }
+
+        function getRandomColor() {
+            const colors = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFE66D", "#FF8E53", "#A78BFA", "#F472B6"];
+            return colors[Math.floor(Math.random() * colors.length)];
         }
 
         function renderTeams() {
@@ -885,82 +799,112 @@
             
             teams.forEach((team, index) => {
                 const teamCard = document.createElement('div');
-                teamCard.className = `team-card ${index === currentTeamIndex ? 'active' : ''}`;
+                teamCard.className = `team-card ${index === currentTeamIndex && isGameActive ? 'active' : ''}`;
                 teamCard.style.borderColor = team.color;
                 teamCard.innerHTML = `
                     <div class="team-icon">${team.icon}</div>
-                    <div class="team-name">${team.name}</div>
-                    <div class="team-score">${team.score || 0} баллов</div>
+                    <div class="team-info">
+                        <div class="team-name">${team.name}</div>
+                        <div class="team-score">${team.score || 0} баллов</div>
+                    </div>
                 `;
                 teamsGrid.appendChild(teamCard);
             });
         }
 
-        function updateCurrentTeamDisplay() {
+        function updateCurrentTeamInfo() {
             const currentTeam = teams[currentTeamIndex];
             if (!currentTeam) return;
             
-            document.getElementById('currentTeamIcon').textContent = currentTeam.icon;
-            document.getElementById('currentTeamName').textContent = currentTeam.name;
-            
-            // Обновляем счетчик вопросов
-            const questionNumber = currentTeamQuestion + 1;
-            document.getElementById('questionCounter').textContent = `${questionNumber}/4`;
-            
-            // Показываем блок текущей команды
-            document.getElementById('currentTeamDisplay').style.display = 'block';
+            // Обновляем информацию о команде
+            document.getElementById('currentTeamNameDisplay').textContent = currentTeam.name;
+            document.getElementById('currentQuestionNumber').textContent = currentTeamQuestion + 1;
+            document.getElementById('totalTeamQuestions').textContent = totalTeamQuestions;
+            document.getElementById('teamScoreDisplay').textContent = currentTeam.score || 0;
             
             // Обновляем активную команду в сетке
             document.querySelectorAll('.team-card').forEach((card, index) => {
-                card.classList.toggle('active', index === currentTeamIndex);
+                card.classList.toggle('active', index === currentTeamIndex && isGameActive);
             });
         }
 
         // ========== ОСНОВНЫЕ ИГРОВЫЕ ФУНКЦИИ ==========
-        function startSeries() {
-            isSeriesActive = true;
+        function startGame() {
+            console.log("Нажата кнопка 'Начать игру'");
             
-            // Скрываем кнопку "Начать серию"
-            document.getElementById('startSeriesBtn').style.display = 'none';
+            if (teams.length === 0) {
+                alert('Нет команд для игры. Перейдите на главную страницу.');
+                return;
+            }
+            
+            // Сброс всех переменных
+            isGameActive = true;
+            currentTermIndex = 0;
+            currentTeamIndex = 0;
+            currentTeamQuestion = 0;
+            score = 0;
+            termsSolved = 0;
+            usedQuestions.clear();
+            
+            // Скрываем кнопку "Начать игру"
+            document.getElementById('startGameBtn').style.display = 'none';
             
             // Показываем игровые элементы
-            document.getElementById('currentTeamDisplay').style.display = 'block';
-            document.getElementById('questionContainer').style.display = 'block';
-            document.getElementById('hintsContainer').style.display = 'block';
-            document.getElementById('timerContainer').style.display = 'block';
+            document.getElementById('questionSection').style.display = 'block';
             document.getElementById('answerSection').style.display = 'block';
-            document.getElementById('scoreDisplay').style.display = 'block';
+            document.getElementById('timerSection').style.display = 'block';
+            document.getElementById('teamInfoSection').style.display = 'block';
             document.getElementById('gameButtons').style.display = 'flex';
             
-            // Начинаем первый вопрос
-            startTerm();
+            // Скрываем навигационные кнопки и результат
+            document.getElementById('navigationButtons').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+            
+            // Сбрасываем таймер
+            resetTimer();
+            
+            // Обновляем команды
+            renderTeams();
+            
+            // Обновляем информацию о команде
+            updateCurrentTeamInfo();
+            
+            // Выбираем случайный вопрос
+            selectRandomQuestion();
         }
 
-        function startTerm() {
-            if (currentTermIndex >= energyTerms.length) {
+        function selectRandomQuestion() {
+            // Находим неиспользованный вопрос
+            let availableQuestions = [];
+            for (let i = 0; i < energyTerms.length; i++) {
+                if (!usedQuestions.has(i)) {
+                    availableQuestions.push(i);
+                }
+            }
+            
+            // Если все вопросы использованы, завершаем игру
+            if (availableQuestions.length === 0) {
                 endGame();
                 return;
             }
             
+            // Выбираем случайный вопрос
+            const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            currentTermIndex = availableQuestions[randomIndex];
+            usedQuestions.add(currentTermIndex);
+            
+            // Начинаем вопрос
+            startTerm();
+        }
+
+        function startTerm() {
+            console.log("Начинаем вопрос", currentTermIndex + 1, "для команды", teams[currentTeamIndex]?.name);
+            
             const term = energyTerms[currentTermIndex];
             
-            // Обновляем информацию о команде
-            updateCurrentTeamDisplay();
-            
-            // Обновляем вопрос (показываем только первую подсказку как вопрос)
-            document.getElementById('questionText').textContent = term.hints[0];
+            // Показываем вопрос
+            document.getElementById('questionText').textContent = term.description;
             document.getElementById('categoryBadge').textContent = `Категория: ${term.category}`;
-            
-            // Сбрасываем подсказки
-            currentHintIndex = 0;
-            document.getElementById('hint1').classList.add('active');
-            document.getElementById('hint2').classList.remove('active');
-            document.getElementById('hint3').classList.remove('active');
-            
-            // Заполняем подсказки
-            document.getElementById('hintText1').textContent = term.hints[0];
-            document.getElementById('hintText2').textContent = term.hints[1];
-            document.getElementById('hintText3').textContent = term.hints[2];
             
             // Очищаем поле ввода
             const answerInput = document.getElementById('answerInput');
@@ -969,48 +913,19 @@
             answerInput.disabled = false;
             answerInput.focus();
             
-            // Скрываем предыдущие результаты
-            document.getElementById('resultMessage').style.display = 'none';
-            document.getElementById('jokeContainer').style.display = 'none';
-            document.getElementById('nextQuestionBtn').style.display = 'none';
-            document.getElementById('nextTeamBtn').style.display = 'none';
-            
             // Включаем игровые кнопки
-            document.getElementById('nextHintBtn').disabled = false;
             document.getElementById('checkBtn').disabled = false;
             document.getElementById('skipBtn').disabled = false;
             
-            // Сбрасываем таймер
-            resetTimer();
+            // Обновляем информацию о команде
+            updateCurrentTeamInfo();
+            
+            // Запускаем таймер
             startTimer();
             
-            // Обновляем счет
-            updateScoreDisplay();
-        }
-
-        function showNextHint() {
-            if (currentHintIndex < 2) {
-                currentHintIndex++;
-                document.getElementById(`hint${currentHintIndex + 1}`).classList.add('active');
-                
-                // Обновляем информацию о баллах
-                updatePointsInfo();
-            }
-            
-            if (currentHintIndex >= 2) {
-                document.getElementById('nextHintBtn').disabled = true;
-            }
-        }
-
-        function updatePointsInfo() {
-            const points = currentHintIndex === 0 ? 3 : currentHintIndex === 1 ? 2 : 1;
-            document.getElementById('scoreDisplay').innerHTML = `
-                Баллов: <span id="currentScore">${score}</span> | 
-                Терминов: <span id="termsSolved">${termsSolved}</span>/20
-                <div class="points-info">
-                    (Можно получить: ${points} балл${points > 1 ? 'а' : ''})
-                </div>
-            `;
+            // Скрываем результат и навигацию
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('navigationButtons').style.display = 'none';
         }
 
         function checkAnswer() {
@@ -1028,12 +943,15 @@
                 return normalizedUserAnswer === normalizedVariant;
             });
             
-            // Расчет баллов
+            // Расчет баллов: 2 балла за быстрый ответ (первые 25 сек), 1 балл за поздний
+            const timeUsed = 50 - timeLeft;
             let points = 0;
             if (isCorrect) {
-                if (currentHintIndex === 0) points = 3;
-                else if (currentHintIndex === 1) points = 2;
-                else if (currentHintIndex === 2) points = 1;
+                if (timeUsed <= 25) {
+                    points = 2; // Быстрый ответ
+                } else {
+                    points = 1; // Поздний ответ
+                }
                 
                 score += points;
                 termsSolved++;
@@ -1041,7 +959,7 @@
                 // Сохраняем очки текущей команде
                 if (teams[currentTeamIndex]) {
                     teams[currentTeamIndex].score = (teams[currentTeamIndex].score || 0) + points;
-                    localStorage.setItem('energyTeams', JSON.stringify(teams));
+                    localStorage.setItem('energyQuizTeams', JSON.stringify(teams));
                     renderTeams();
                 }
                 
@@ -1051,10 +969,9 @@
             }
             
             // Показываем результат
-            showResult(isCorrect, points, currentTerm);
+            showResult(isCorrect, points, currentTerm, timeUsed);
             
             // Отключаем игровые кнопки
-            document.getElementById('nextHintBtn').disabled = true;
             document.getElementById('checkBtn').disabled = true;
             document.getElementById('skipBtn').disabled = true;
             document.getElementById('answerInput').disabled = true;
@@ -1062,115 +979,97 @@
 
         function skipQuestion() {
             clearInterval(timer);
-            showResult(false, 0, energyTerms[currentTermIndex]);
+            showResult(false, 0, energyTerms[currentTermIndex], 50 - timeLeft);
             
-            document.getElementById('nextHintBtn').disabled = true;
             document.getElementById('checkBtn').disabled = true;
             document.getElementById('skipBtn').disabled = true;
             document.getElementById('answerInput').disabled = true;
         }
 
-        function showResult(isCorrect, points, termData) {
-            const resultDiv = document.getElementById('resultMessage');
-            const jokeDiv = document.getElementById('jokeContainer');
-            
+        function showResult(isCorrect, points, termData, timeUsed) {
+            const resultDiv = document.getElementById('resultSection');
             const correctAnswers = termData.variants || [termData.term];
             const answerText = correctAnswers.length > 1 
                 ? correctAnswers.join(' или ') 
                 : termData.term;
             
             if (isCorrect) {
-                resultDiv.className = 'result-message result-correct';
+                resultDiv.className = 'result-section result-correct';
                 resultDiv.innerHTML = `
-                    ✅ <strong>ВЕРНО!</strong> +${points} балл${points > 1 ? 'а' : ''}!<br>
-                    Правильный ответ: <strong>${answerText}</strong>
-                    ${points === 3 ? '🎯 Угадали с первой подсказки!' : 
-                      points === 2 ? '👍 Со второй подсказки!' : 
-                      '🤔 С третьей подсказки!'}
+                    <div class="result-content">
+                        ✅ <strong>ВЕРНО!</strong><br>
+                        <strong>${answerText}</strong><br>
+                        +${points} балл${points > 1 ? 'а' : ''}!<br>
+                        Время: ${timeUsed} секунд<br>
+                        ${points === 2 ? '🎯 Быстрый ответ!' : '👍 Хороший ответ!'}
+                    </div>
                 `;
             } else {
-                resultDiv.className = 'result-message result-wrong';
+                resultDiv.className = 'result-section result-wrong';
                 resultDiv.innerHTML = `
-                    ❌ <strong>НЕ УГАДАЛИ!</strong><br>
-                    Правильный ответ: <strong>${answerText}</strong>
+                    <div class="result-content">
+                        ❌ <strong>НЕ УГАДАЛИ!</strong><br>
+                        Правильный ответ:<br>
+                        <strong>${answerText}</strong>
+                    </div>
                 `;
             }
             
-            // Показываем шутку
-            jokeDiv.innerHTML = `🎭 ${termData.joke}`;
-            jokeDiv.style.display = 'block';
             resultDiv.style.display = 'block';
             
             // Определяем, какой кнопкой продолжать
-            const isLastQuestionInSeries = currentTeamQuestion >= 3;
-            const isLastQuestionOverall = currentTermIndex >= energyTerms.length - 1;
+            const isLastQuestionForTeam = currentTeamQuestion >= totalTeamQuestions - 1;
+            const isLastQuestionOverall = usedQuestions.size >= 20;
             
             if (isLastQuestionOverall) {
-                document.getElementById('nextQuestionBtn').textContent = '🏆 ЗАВЕРШИТЬ ИГРУ';
-                document.getElementById('nextQuestionBtn').style.display = 'block';
-            } else if (isLastQuestionInSeries && !isFinalRound) {
+                document.getElementById('nextTermBtn').textContent = '🏆 ЗАВЕРШИТЬ ИГРУ';
+                document.getElementById('nextTermBtn').style.display = 'block';
+                document.getElementById('nextTeamBtn').style.display = 'none';
+            } else if (isLastQuestionForTeam) {
+                document.getElementById('nextTermBtn').style.display = 'none';
                 document.getElementById('nextTeamBtn').style.display = 'block';
             } else {
-                document.getElementById('nextQuestionBtn').textContent = '➡️ Следующий термин';
-                document.getElementById('nextQuestionBtn').style.display = 'block';
+                document.getElementById('nextTermBtn').textContent = '➡️ Следующий термин';
+                document.getElementById('nextTermBtn').style.display = 'block';
+                document.getElementById('nextTeamBtn').style.display = 'none';
             }
+            
+            document.getElementById('navigationButtons').style.display = 'flex';
         }
 
         function nextTerm() {
-            currentTermIndex++;
+            // Увеличиваем счетчик вопросов команды
             currentTeamQuestion++;
             
-            if (currentTeamQuestion >= 4) {
+            // Если команда ответила на все свои вопросы, переходим к следующей команде
+            if (currentTeamQuestion >= totalTeamQuestions) {
                 currentTeamQuestion = 0;
-                isSeriesActive = false;
-            }
-            
-            if (currentTermIndex < energyTerms.length) {
-                if (isSeriesActive) {
-                    startTerm();
-                } else {
-                    document.getElementById('gameButtons').style.display = 'none';
-                    document.getElementById('startSeriesBtn').style.display = 'block';
-                    document.getElementById('nextQuestionBtn').style.display = 'none';
-                    document.getElementById('nextTeamBtn').style.display = 'none';
-                }
+                nextTeam();
             } else {
-                endGame();
+                // Выбираем следующий случайный вопрос
+                selectRandomQuestion();
             }
         }
 
-        function nextTeamTurn() {
-            if (isFinalRound) {
-                isSeriesActive = true;
-                startTerm();
-                return;
-            }
-            
+        function nextTeam() {
+            // Переходим к следующей команде
             currentTeamIndex = (currentTeamIndex + 1) % teams.length;
             currentTeamQuestion = 0;
-            isSeriesActive = false;
             
-            if (currentTeamIndex === 0) {
-                isFinalRound = true;
-            }
-            
-            document.getElementById('gameButtons').style.display = 'none';
-            document.getElementById('startSeriesBtn').style.display = 'block';
-            document.getElementById('nextQuestionBtn').style.display = 'none';
-            document.getElementById('nextTeamBtn').style.display = 'none';
-            
-            updateCurrentTeamDisplay();
+            // Выбираем следующий случайный вопрос
+            selectRandomQuestion();
         }
 
         // ========== ТАЙМЕР ==========
         function startTimer() {
             resetTimer();
+            startTime = Date.now();
             timer = setInterval(updateTimer, 1000);
         }
 
         function resetTimer() {
             clearInterval(timer);
-            timeLeft = 30;
+            timeLeft = 50;
             updateTimerDisplay();
         }
 
@@ -1185,35 +1084,31 @@
         }
 
         function updateTimerDisplay() {
-            document.getElementById('timer').textContent = timeLeft;
-            document.getElementById('timerBar').style.width = `${(timeLeft / 30) * 100}%`;
+            const timerElement = document.getElementById('timerDisplay');
+            const timerBar = document.getElementById('timerBar');
             
-            const timerElement = document.getElementById('timer');
-            if (timeLeft <= 10) {
-                timerElement.className = 'timer danger';
-            } else if (timeLeft <= 20) {
-                timerElement.className = 'timer warning';
+            timerElement.textContent = timeLeft;
+            timerBar.style.width = `${(timeLeft / 50) * 100}%`;
+            
+            if (timeLeft <= 15) {
+                timerElement.className = 'timer-display danger';
+            } else if (timeLeft <= 30) {
+                timerElement.className = 'timer-display warning';
             } else {
-                timerElement.className = 'timer';
+                timerElement.className = 'timer-display';
             }
         }
 
         function timeUp() {
-            showResult(false, 0, energyTerms[currentTermIndex]);
+            showResult(false, 0, energyTerms[currentTermIndex], 50);
             document.getElementById('answerInput').disabled = true;
-            document.getElementById('nextHintBtn').disabled = true;
             document.getElementById('checkBtn').disabled = true;
             document.getElementById('skipBtn').disabled = true;
         }
 
-        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-        function updateScoreDisplay() {
-            document.getElementById('currentScore').textContent = score;
-            document.getElementById('termsSolved').textContent = termsSolved;
-            updatePointsInfo();
-        }
-
         function endGame() {
+            isGameActive = false;
+            
             const finalScreen = document.createElement('div');
             finalScreen.style.cssText = `
                 position: fixed;
@@ -1229,31 +1124,31 @@
             `;
             
             const sortedTeams = [...teams].sort((a, b) => (b.score || 0) - (a.score || 0));
-            const accuracy = Math.round((termsSolved / energyTerms.length) * 100);
+            const accuracy = Math.round((termsSolved / usedQuestions.size) * 100);
             
             finalScreen.innerHTML = `
                 <div style="
                     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                    padding: 30px;
+                    padding: 40px;
                     border-radius: 20px;
                     border: 3px solid #FFD700;
                     text-align: center;
-                    max-width: 600px;
+                    max-width: 700px;
                     width: 90%;
                     max-height: 90vh;
                     overflow-y: auto;
                 ">
-                    <h2 style="color: #FFD700; margin-bottom: 20px; font-size: 1.8em;">🏆 ИГРА ЗАВЕРШЕНА!</h2>
+                    <h2 style="color: #FFD700; margin-bottom: 25px; font-size: 2em;">🏆 ИГРА ЗАВЕРШЕНА!</h2>
                     
-                    <div style="font-size: 1.2em; margin-bottom: 20px; color: #FFD700;">
+                    <div style="font-size: 1.3em; margin-bottom: 25px; color: #FFD700;">
                         ${getFinalComment(accuracy)}
                     </div>
                     
-                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                        <div style="font-size: 1.2em; color: #00b4db; margin-bottom: 10px;">📊 ОБЩАЯ СТАТИСТИКА:</div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; font-size: 0.95em;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                        <h3 style="color: #00b4db; margin-bottom: 15px;">📊 ОБЩАЯ СТАТИСТИКА</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; font-size: 1em;">
                             <div>✅ Угадано терминов:</div>
-                            <div style="color: #00ff88; text-align: right;">${termsSolved}/${energyTerms.length}</div>
+                            <div style="color: #00ff88; text-align: right;">${termsSolved}/${usedQuestions.size}</div>
                             <div>🎯 Точность:</div>
                             <div style="color: #00ff88; text-align: right;">${accuracy}%</div>
                             <div>⚡ Общий счёт:</div>
@@ -1263,55 +1158,57 @@
                         </div>
                     </div>
                     
-                    <div style="margin: 20px 0;">
-                        <div style="font-size: 1.2em; color: #00b4db; margin-bottom: 10px;">🥇 ТАБЛИЦА ЛИДЕРОВ:</div>
+                    <div style="margin: 25px 0;">
+                        <h3 style="color: #00b4db; margin-bottom: 15px;">🥇 ТАБЛИЦА ЛИДЕРОВ</h3>
                         ${sortedTeams.map((team, index) => `
                             <div style="
                                 display: flex;
                                 justify-content: space-between;
                                 align-items: center;
-                                margin: 8px 0;
-                                padding: 10px 15px;
+                                margin: 10px 0;
+                                padding: 12px 20px;
                                 background: ${index === 0 ? 'rgba(255, 215, 0, 0.2)' : 'rgba(255, 255, 255, 0.05)'};
                                 border-radius: 10px;
-                                border-left: 4px solid ${team.color};
+                                border-left: 5px solid ${team.color};
                             ">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="font-size: 1.1em;">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
-                                    <span style="font-size: 1.1em;">${team.icon}</span>
-                                    <span style="font-weight: bold;">${team.name}</span>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 1.3em;">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
+                                    <span style="font-size: 1.3em;">${team.icon}</span>
+                                    <span style="font-weight: bold; font-size: 1.1em;">${team.name}</span>
                                 </div>
-                                <div style="font-size: 1.2em; color: #00ff88; font-weight: bold;">
+                                <div style="font-size: 1.3em; color: #00ff88; font-weight: bold;">
                                     ${team.score || 0} баллов
                                 </div>
                             </div>
                         `).join('')}
                     </div>
                     
-                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-                        <button onclick="this.parentElement.parentElement.remove(); location.reload()" 
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                        <button onclick="this.parentElement.parentElement.remove(); startGame()" 
                                 style="
-                                    padding: 12px 25px;
+                                    padding: 15px 30px;
                                     background: linear-gradient(45deg, #FFD700, #FFA500);
                                     color: white;
                                     border: none;
                                     border-radius: 25px;
-                                    font-size: 1em;
+                                    font-size: 1.1em;
                                     font-weight: bold;
                                     cursor: pointer;
+                                    min-width: 200px;
                                 ">
                             🔄 Играть ещё раз
                         </button>
                         <button onclick="window.location.href='index.html'" 
                                 style="
-                                    padding: 12px 25px;
+                                    padding: 15px 30px;
                                     background: linear-gradient(45deg, #00ff88, #00cc66);
                                     color: white;
                                     border: none;
                                     border-radius: 25px;
-                                    font-size: 1em;
+                                    font-size: 1.1em;
                                     font-weight: bold;
                                     cursor: pointer;
+                                    min-width: 200px;
                                 ">
                             🏠 На главную
                         </button>
@@ -1331,20 +1228,19 @@
 
         // ========== ИНИЦИАЛИЗАЦИЯ ==========
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("Документ загружен");
             loadTeams();
-            updateScoreDisplay();
             
             // Скрываем игровые элементы при загрузке
-            document.getElementById('gameButtons').style.display = 'none';
-            document.getElementById('currentTeamDisplay').style.display = 'none';
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('hintsContainer').style.display = 'none';
-            document.getElementById('timerContainer').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'none';
             document.getElementById('answerSection').style.display = 'none';
-            document.getElementById('scoreDisplay').style.display = 'none';
+            document.getElementById('timerSection').style.display = 'none';
+            document.getElementById('teamInfoSection').style.display = 'none';
+            document.getElementById('gameButtons').style.display = 'none';
+            document.getElementById('navigationButtons').style.display = 'none';
             
-            // Фокус на кнопке "Начать серию"
-            document.getElementById('startSeriesBtn').focus();
+            // Фокус на кнопке "Начать игру"
+            document.getElementById('startGameBtn').focus();
         });
     </script>
 </body>
