@@ -996,14 +996,14 @@
                 image: "Media/dangerous_trench.jpg",
                 situation: "При работе в траншее глубиной 1,5 метра не установлены откосы или крепления стенок.",
                 wisdom: "Грунт не предупреждает об обвале. Он просто обваливается.",
-                question: "Какая опасность?",
+                question: "Какая НЕПОСРЕДСТВЕННАЯ и СМЕРТЕЛЬНАЯ опасность угрожает работнику?",
                 answers: [
-                    "Обвал грунта",
-                    "Затопление водой",
+                    "Мгновенный обвал грунта с удушьем",
+                    "Затопление траншеи водой",
                     "Падение инструментов",
-                    "Основная - обвал"
+                    "Поражение электрическим током"
                 ],
-                correct: 3,
+                correct: 0,
                 explanation: "Основная опасность - ОБВАЛ ГРУНТА! 1 тонна грунта на глубине 1,5м давит с силой, достаточной для смертельного сдавливания грудной клетки.",
                 violations: [
                     "Работа без укрепления траншеи",
@@ -1088,7 +1088,7 @@
         // Загружаем команды из localStorage
         function loadTeams() {
             try {
-                const savedTeams = localStorage.getItem('energyTeams');
+               const savedTeams = localStorage.getItem('energyQuizTeams');
                 if (!savedTeams) return null;
                 
                 const teams = JSON.parse(savedTeams);
